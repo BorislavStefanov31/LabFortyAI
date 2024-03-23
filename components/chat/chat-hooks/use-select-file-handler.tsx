@@ -11,7 +11,8 @@ export const ACCEPTED_FILE_TYPES = [
   "application/json",
   "text/markdown",
   "application/pdf",
-  "text/plain"
+  "text/plain",
+  "application/xml" // Added .xml MIME type here
 ].join(",")
 
 export const useSelectFileHandler = () => {
@@ -68,6 +69,9 @@ export const useSelectFileHandler = () => {
           )
         ) {
           simplifiedFileType = "docx"
+        } else if (file.type === "application/xml") {
+          // Check if the file is XML
+          simplifiedFileType = "xml"
         }
 
         setNewMessageFiles(prev => [
