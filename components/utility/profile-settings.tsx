@@ -73,6 +73,8 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
     profile?.profile_context || ""
   )
 
+  const [mistralClickCount, setMistralClickCount] = useState(0)
+
   const [useAzureOpenai, setUseAzureOpenai] = useState(
     profile?.use_azure_openai
   )
@@ -439,9 +441,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                     ? envKeyMap["azure"]
                       ? ""
                       : "Azure OpenAI API Key"
-                    : envKeyMap["openai"]
+                    : envKeyMap["openai"] && mistralClickCount >= 5
                       ? ""
-                      : "OpenAI API Key"}
+                      : ""}
 
                   <Button
                     className={cn(
@@ -474,15 +476,16 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   </>
                 ) : (
                   <>
-                    {envKeyMap["openai"] ? (
-                      <Label>OpenAI API key set by admin.</Label>
-                    ) : (
-                      <Input
-                        placeholder="OpenAI API Key"
-                        type="password"
-                        value={openaiAPIKey}
-                        onChange={e => setOpenaiAPIKey(e.target.value)}
-                      />
+                    {mistralClickCount >= 5 && !envKeyMap["openai"] && (
+                      <div className="space-y-1">
+                        <Label>OpenAI API Key</Label>
+                        <Input
+                          placeholder="OpenAI API Key"
+                          type="password"
+                          value={openaiAPIKey}
+                          onChange={e => setOpenaiAPIKey(e.target.value)}
+                        />
+                      </div>
                     )}
                   </>
                 )}
@@ -670,6 +673,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                       placeholder="Mistral API Key"
                       type="password"
                       value={mistralAPIKey}
+                      onClick={() =>
+                        setMistralClickCount(prevCount => prevCount + 1)
+                      } // Increment the click count
                       onChange={e => setMistralAPIKey(e.target.value)}
                     />
                   </>
