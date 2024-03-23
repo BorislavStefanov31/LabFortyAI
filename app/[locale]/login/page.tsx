@@ -167,8 +167,6 @@ export default async function Login({
         className="animate-in text-foreground flex w-full flex-1 flex-col justify-center gap-2"
         action={signIn}
       >
-        <Brand />
-
         <Label className="text-md mt-4" htmlFor="email">
           Email
         </Label>
@@ -192,23 +190,6 @@ export default async function Login({
         <SubmitButton className="mb-2 rounded-md bg-blue-700 px-4 py-2 text-white">
           Login
         </SubmitButton>
-
-        <SubmitButton
-          formAction={signUp}
-          className="border-foreground/20 mb-2 rounded-md border px-4 py-2"
-        >
-          Sign Up
-        </SubmitButton>
-
-        <div className="text-muted-foreground mt-1 flex justify-center text-sm">
-          <span className="mr-1">Forgot your password?</span>
-          <button
-            formAction={handleResetPassword}
-            className="text-primary ml-1 underline hover:opacity-80"
-          >
-            Reset
-          </button>
-        </div>
 
         {searchParams?.message && (
           <p className="bg-foreground/10 text-foreground mt-4 p-4 text-center">
