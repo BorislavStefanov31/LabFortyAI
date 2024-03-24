@@ -37,11 +37,6 @@ export default function ChatPage() {
   const [newPrompt, setNewPrompt] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log(
-    "🚀 ~ generateImage ~ process.env.OPENAI_API_KEY:",
-    process.env.OPENAI_API_KEY
-  )
-
   const generateImage = async () => {
     setIsLoading(true) // Start loading
     const data = {
@@ -123,12 +118,6 @@ export default function ChatPage() {
                 border: "none",
                 borderRadius: "5px",
                 transition: "background-color 0.3s"
-              }}
-              onMouseOver={e => {
-                if (!isLoading) e.target.style.backgroundColor = "#0056b3"
-              }}
-              onMouseOut={e => {
-                if (!isLoading) e.target.style.backgroundColor = "#007bff"
               }}
             >
               {isLoading ? "Generating..." : "Generate Image"}
