@@ -10,12 +10,12 @@ import { Brand } from "@/components/ui/brand"
 import { ChatbotUIContext } from "@/context/context"
 import useHotkey from "@/lib/hooks/use-hotkey"
 import { useTheme } from "next-themes"
+import { supabase } from "@/lib/supabase/browser-client"
 import { useContext } from "react"
-import { usePathname } from "next/navigation"
 import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
-import { getServerProfile } from "@/lib/server/server-chat-helpers"
+import { getProfileByUserId } from "@/db/profile"
 
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())
@@ -24,6 +24,18 @@ export default function ChatPage() {
   })
 
   const { chatMessages } = useContext(ChatbotUIContext)
+
+  const fetchStartingData: any = async () => {
+    const session = (await supabase.auth.getSession()).data.session
+
+    if (session) {
+      const user = session.user
+
+      const profile = await getProfileByUserId(user.id)
+
+      return profile
+    }
+  }
 
   const { handleNewChat, handleFocusChatInput } = useChatHandler()
 
@@ -36,6 +48,17 @@ export default function ChatPage() {
   const [imageSrc, setImageSrc] = useState("")
   const [newPrompt, setNewPrompt] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [userProfile, setUserProfile]: any = useState(null)
+  console.log("🚀 ~ ChatPage ~ userProfile:", userProfile)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const profileData = await fetchStartingData()
+      setUserProfile(profileData)
+    }
+
+    fetchData().catch(console.error)
+  }, [])
 
   const generateImage = async () => {
     setIsLoading(true) // Start loading
@@ -48,7 +71,7 @@ export default function ChatPage() {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${userProfile?.openai_api_key}`,
         "Content-Type": "application/json"
       }
     }
@@ -133,30 +156,6 @@ export default function ChatPage() {
                     marginBottom: "20px"
                   }}
                 />
-                <textarea
-                  value={newPrompt}
-                  onChange={e => setNewPrompt(e.target.value)}
-                  placeholder="Enter new prompt based on the image"
-                  rows={2}
-                  style={{
-                    width: "100%",
-                    resize: "none",
-                    marginBottom: "10px"
-                  }}
-                />
-                <button
-                  onClick={handleSubmitNewPrompt}
-                  style={{
-                    padding: "10px 20px",
-                    backgroundColor: "#007bff",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer"
-                  }}
-                >
-                  Submit New Prompts
-                </button>
               </>
             )}
           </>
