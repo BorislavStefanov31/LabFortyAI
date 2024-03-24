@@ -15,6 +15,7 @@ import { useContext } from "react"
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import Image from "next/image"
 import { getProfileByUserId } from "@/db/profile"
 
 export default function ChatPage() {
@@ -49,7 +50,13 @@ export default function ChatPage() {
   const [newPrompt, setNewPrompt] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [userProfile, setUserProfile]: any = useState(null)
-  console.log("🚀 ~ ChatPage ~ userProfile:", userProfile)
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // Function to handle image generation and other existing code...
+
+  // Function to toggle modal visibility
+  const toggleModal = () => setIsModalOpen(!isModalOpen)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +110,39 @@ export default function ChatPage() {
     setNewPrompt("")
   }
 
-  console.log("🚀 ~ ChatPage ~ tabValue:", tabValue)
+  const ImageModal = ({ src, onClose }: { src: any; onClose: any }) => (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000 // Ensure it's above other content
+      }}
+      onClick={onClose} // Close modal when background is clicked
+    >
+      <img
+        src={src}
+        style={{
+          maxHeight: "90vh",
+          maxWidth: "90vw",
+          borderRadius: "8px"
+        }}
+        onClick={e => e.stopPropagation()} // Prevent click inside the image from closing modal
+      />
+    </div>
+  )
+
+  // Updated return statement to include modal logic
+  if (imageSrc && isModalOpen) {
+    // Display the modal if an image is generated and modal is open
+    return <ImageModal src={imageSrc} onClose={toggleModal} />
+  }
 
   if (tabValue === "Image Creation") {
     return (
@@ -114,7 +153,7 @@ export default function ChatPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center", // Center align the content
-          justifyContent: "center", // Center vertically in the viewport
+          justifyContent: "flex-start", // Center vertically in the viewport
           height: "100vh",
           gap: "20px" // Add space between elements
         }}
@@ -127,7 +166,6 @@ export default function ChatPage() {
               placeholder="Enter a prompt for the image"
               rows={3}
               style={{
-                resize: "none",
                 width: "100%",
                 maxWidth: "600px", // Limit max width for larger screens
                 lineHeight: "1.5",
@@ -153,15 +191,19 @@ export default function ChatPage() {
               {isLoading ? "Generating..." : "Generate Image"}
             </button>
             {imageSrc && (
-              <img
+              <Image
+                onClick={toggleModal}
                 src={imageSrc}
                 alt="Generated"
                 style={{
                   maxWidth: "1024px", // Ensure it's responsive
                   maxHeight: "1024px",
                   borderRadius: "8px",
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                  cursor: "zoom-in" // Changes cursor to magnifying glass on hover
                 }}
+                height={512}
+                width={512}
               />
             )}
           </>
