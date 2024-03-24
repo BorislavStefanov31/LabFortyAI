@@ -105,7 +105,7 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
       >
-        {isDragging ? (
+        {isDragging && tabValue !== "Image Creation" ? (
           <div className="flex h-full items-center justify-center bg-black/50 text-2xl text-white">
             drop file here
           </div>
