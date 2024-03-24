@@ -113,7 +113,10 @@ export default function ChatPage() {
           padding: "20px",
           display: "flex",
           flexDirection: "column",
-          height: "100vh"
+          alignItems: "center", // Center align the content
+          justifyContent: "center", // Center vertically in the viewport
+          height: "100vh",
+          gap: "20px" // Add space between elements
         }}
       >
         {tabValue === "Image Creation" && (
@@ -125,14 +128,18 @@ export default function ChatPage() {
               rows={3}
               style={{
                 resize: "none",
-                marginBottom: "20px",
                 width: "100%",
-                lineHeight: "1.5"
+                maxWidth: "600px", // Limit max width for larger screens
+                lineHeight: "1.5",
+                padding: "10px",
+                borderRadius: "8px",
+                border: "1px solid #ccc",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
               }}
             />
             <button
               onClick={generateImage}
-              disabled={isLoading}
+              disabled={isLoading || !!imageSrc}
               style={{
                 padding: "10px 20px",
                 cursor: isLoading ? "not-allowed" : "pointer",
@@ -140,23 +147,22 @@ export default function ChatPage() {
                 color: "white",
                 border: "none",
                 borderRadius: "5px",
-                transition: "background-color 0.3s"
+                transition: "background-color 0.3s, transform 0.2s"
               }}
             >
               {isLoading ? "Generating..." : "Generate Image"}
             </button>
             {imageSrc && (
-              <>
-                <img
-                  src={imageSrc}
-                  alt="Generated"
-                  style={{
-                    width: "1024px",
-                    height: "1024px",
-                    marginBottom: "20px"
-                  }}
-                />
-              </>
+              <img
+                src={imageSrc}
+                alt="Generated"
+                style={{
+                  maxWidth: "1024px", // Ensure it's responsive
+                  maxHeight: "1024px",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
+                }}
+              />
             )}
           </>
         )}
