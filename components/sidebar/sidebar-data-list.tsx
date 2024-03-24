@@ -132,7 +132,7 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
       )
   }
 
-  const updateFunctions = {
+  const updateFunctions: any = {
     chats: updateChat,
     presets: updatePreset,
     prompts: updatePrompt,
@@ -143,7 +143,7 @@ export const SidebarDataList: FC<SidebarDataListProps> = ({
     models: updateModel
   }
 
-  const stateUpdateFunctions = {
+  const stateUpdateFunctions: any = {
     chats: setChats,
     presets: setPresets,
     prompts: setPrompts,

@@ -42,7 +42,7 @@ export const DeleteFolder: FC<DeleteFolderProps> = ({
 
   const [showFolderDialog, setShowFolderDialog] = useState(false)
 
-  const stateUpdateFunctions = {
+  const stateUpdateFunctions: any = {
     chats: setChats,
     presets: setPresets,
     prompts: setPrompts,
