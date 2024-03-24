@@ -63,7 +63,7 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
 
   const [creating, setCreating] = useState(false)
 
-  const createFunctions = {
+  const createFunctions: any = {
     chats: createChat,
     presets: createPreset,
     prompts: createPrompt,
@@ -173,7 +173,7 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
     models: createModel
   }
 
-  const stateUpdateFunctions = {
+  const stateUpdateFunctions: any = {
     chats: setChats,
     presets: setPresets,
     prompts: setPrompts,
