@@ -7,4 +7,4 @@ export type ContentType =
   | "assistants"
   | "tools"
   | "models"
-  | "Image Creation"
+  | "Image Generation"

@@ -144,7 +144,7 @@ export default function ChatPage() {
     return <ImageModal src={imageSrc} onClose={toggleModal} />
   }
 
-  if (tabValue === "Image Creation") {
+  if (tabValue === "Image Generation") {
     return (
       <div
         className="chat-page-container"
@@ -158,7 +158,7 @@ export default function ChatPage() {
           gap: "20px" // Add space between elements
         }}
       >
-        {tabValue === "Image Creation" && (
+        {tabValue === "Image Generation" && (
           <>
             <textarea
               value={prompt}

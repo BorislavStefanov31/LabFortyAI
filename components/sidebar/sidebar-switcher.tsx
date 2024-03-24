@@ -78,7 +78,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
 
         <SidebarSwitchItem
           icon={<IconPhotoPlus size={SIDEBAR_ICON_SIZE} />}
-          contentType="Image Creation"
+          contentType="Image Generation"
           onContentTypeChange={onContentTypeChange}
         />
       </TabsList>
