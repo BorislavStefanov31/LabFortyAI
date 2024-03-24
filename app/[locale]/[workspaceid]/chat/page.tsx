@@ -155,7 +155,7 @@ export default function ChatPage() {
                     cursor: "pointer"
                   }}
                 >
-                  Submit New Prompt
+                  Submit New Prompts
                 </button>
               </>
             )}
