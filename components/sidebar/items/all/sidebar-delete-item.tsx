@@ -46,7 +46,7 @@ export const SidebarDeleteItem: FC<SidebarDeleteItemProps> = ({
 
   const [showDialog, setShowDialog] = useState(false)
 
-  const deleteFunctions = {
+  const deleteFunctions: any = {
     chats: async (chat: Tables<"chats">) => {
       await deleteChat(chat.id)
     },
@@ -77,7 +77,7 @@ export const SidebarDeleteItem: FC<SidebarDeleteItemProps> = ({
     }
   }
 
-  const stateUpdateFunctions = {
+  const stateUpdateFunctions: any = {
     chats: setChats,
     presets: setPresets,
     prompts: setPrompts,
