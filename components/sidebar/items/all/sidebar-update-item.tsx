@@ -170,7 +170,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     }
   }, [isOpen])
 
-  const renderState = {
+  const renderState: any = {
     chats: null,
     presets: null,
     prompts: null,
@@ -199,7 +199,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     models: null
   }
 
-  const fetchDataFunctions = {
+  const fetchDataFunctions: any = {
     chats: null,
     presets: null,
     prompts: null,
@@ -229,7 +229,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     models: null
   }
 
-  const fetchWorkpaceFunctions = {
+  const fetchWorkpaceFunctions: any = {
     chats: null,
     presets: async (presetId: string) => {
       const item = await getPresetWorkspacesByPresetId(presetId)
@@ -325,7 +325,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     )
   }
 
-  const updateFunctions = {
+  const updateFunctions: any = {
     chats: updateChat,
     presets: async (presetId: string, updateState: TablesUpdate<"presets">) => {
       const updatedPreset = await updatePreset(presetId, updateState)
@@ -571,7 +571,7 @@ export const SidebarUpdateItem: FC<SidebarUpdateItemProps> = ({
     }
   }
 
-  const stateUpdateFunctions = {
+  const stateUpdateFunctions: any = {
     chats: setChats,
     presets: setPresets,
     prompts: setPrompts,
