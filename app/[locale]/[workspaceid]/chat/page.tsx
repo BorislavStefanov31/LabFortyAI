@@ -105,7 +105,6 @@ export default function ChatPage() {
       imageReference: imageSrc
     }
 
-    console.log(combinedData)
     // Here you would typically send combinedData to your server or API for processing
     setNewPrompt("")
   }

@@ -51,15 +51,12 @@ export async function POST(req: Request) {
     const { data: file, error: fileError } = await supabaseAdmin.storage
       .from("files")
       .download(fileMetadata.file_path)
-    console.log("🚀 ~ POST ~ file:", file)
 
     if (fileError)
       throw new Error(`Failed to retrieve file: ${fileError.message}`)
 
     const fileBuffer = Buffer.from(await file.arrayBuffer())
-    console.log("🚀 ~ POST ~ fileBuffer:", fileBuffer)
     const blob = new Blob([fileBuffer])
-    console.log("🚀 ~ POST ~ blob:", blob)
     const fileExtension = fileMetadata.name.split(".").pop()?.toLowerCase()
 
     if (embeddingsProvider === "openai") {
@@ -89,10 +86,7 @@ export async function POST(req: Request) {
         chunks = await processTxt(blob)
         break
       case "xml":
-        console.log("tuk sum ve lud")
         chunks = await processXML(file)
-        console.log("🚀 ~ POST ~ chunks:", chunks)
-        console.log("minah go ve lud")
         break
       default:
         return new NextResponse("Unsupported file type", {
@@ -117,7 +111,6 @@ export async function POST(req: Request) {
       })
     }
     if (embeddingsProvider === "openai") {
-      console.log(chunks)
       const response = await openai.embeddings.create({
         model: "text-embedding-3-small",
         input: chunks.map(chunk => chunk.content)
