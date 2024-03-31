@@ -12,7 +12,7 @@ export const ACCEPTED_FILE_TYPES = [
   "text/markdown",
   "application/pdf",
   "text/plain",
-  "application/xml" // Added .xml MIME type here
+  "text/xml" // Added .xml MIME type here
 ].join(",")
 
 export const useSelectFileHandler = () => {
@@ -69,8 +69,7 @@ export const useSelectFileHandler = () => {
           )
         ) {
           simplifiedFileType = "docx"
-        } else if (file.type === "application/xml") {
-          // Check if the file is XML
+        } else if (file.type === "text/xml") {
           simplifiedFileType = "xml"
         }
 

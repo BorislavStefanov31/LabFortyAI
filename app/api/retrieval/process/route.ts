@@ -4,7 +4,8 @@ import {
   processJSON,
   processMarkdown,
   processPdf,
-  processTxt
+  processTxt,
+  processXML
 } from "@/lib/retrieval/processing"
 import { checkApiKey, getServerProfile } from "@/lib/server/server-chat-helpers"
 import { Database } from "@/supabase/types"
@@ -50,12 +51,15 @@ export async function POST(req: Request) {
     const { data: file, error: fileError } = await supabaseAdmin.storage
       .from("files")
       .download(fileMetadata.file_path)
+    console.log("🚀 ~ POST ~ file:", file)
 
     if (fileError)
       throw new Error(`Failed to retrieve file: ${fileError.message}`)
 
     const fileBuffer = Buffer.from(await file.arrayBuffer())
+    console.log("🚀 ~ POST ~ fileBuffer:", fileBuffer)
     const blob = new Blob([fileBuffer])
+    console.log("🚀 ~ POST ~ blob:", blob)
     const fileExtension = fileMetadata.name.split(".").pop()?.toLowerCase()
 
     if (embeddingsProvider === "openai") {
@@ -84,6 +88,12 @@ export async function POST(req: Request) {
       case "txt":
         chunks = await processTxt(blob)
         break
+      case "xml":
+        console.log("tuk sum ve lud")
+        chunks = await processXML(file)
+        console.log("🚀 ~ POST ~ chunks:", chunks)
+        console.log("minah go ve lud")
+        break
       default:
         return new NextResponse("Unsupported file type", {
           status: 400
@@ -106,8 +116,8 @@ export async function POST(req: Request) {
         organization: profile.openai_organization_id
       })
     }
-
     if (embeddingsProvider === "openai") {
+      console.log(chunks)
       const response = await openai.embeddings.create({
         model: "text-embedding-3-small",
         input: chunks.map(chunk => chunk.content)
