@@ -28,7 +28,7 @@ const GPT4TurboPLus: LLM = {
   modelId: "gpt-4-turbo",
   modelName: "GPT-4 Turbo - upgraded",
   provider: "openai",
-  hostedId: "gpt-4-turbo	",
+  hostedId: "gpt-4-turbo",
   platformLink: OPENAI_PLATORM_LINK,
   imageInput: true
 }
