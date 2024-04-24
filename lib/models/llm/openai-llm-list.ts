@@ -24,4 +24,13 @@ const GPT4Vision: LLM = {
   imageInput: true
 }
 
-export const OPENAI_LLM_LIST: LLM[] = [GPT4Turbo, GPT4Vision]
+const GPT4TurboPLus: LLM = {
+  modelId: "gpt-4-turbo",
+  modelName: "GPT-4 Turbo - upgraded",
+  provider: "openai",
+  hostedId: "gpt-4-turbo",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
+}
+
+export const OPENAI_LLM_LIST: LLM[] = [GPT4TurboPLus, GPT4Vision]
