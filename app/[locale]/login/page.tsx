@@ -9,7 +9,8 @@ import { get } from "@vercel/edge-config"
 import { Metadata } from "next"
 import { cookies, headers } from "next/headers"
 import { redirect } from "next/navigation"
-
+import Image from "next/image"
+import labFortyLogo from "./password/LabForty_Logo-02.png"
 export const metadata: Metadata = {
   title: "Login"
 }
@@ -167,6 +168,13 @@ export default async function Login({
         className="animate-in text-foreground flex w-full flex-1 flex-col justify-center gap-2"
         action={signIn}
       >
+        <Image
+          style={{ alignSelf: "center" }}
+          src={labFortyLogo}
+          width={100}
+          height={100}
+          alt="LabForty-Logo"
+        />
         <Label className="text-md mt-4" htmlFor="email">
           Email
         </Label>

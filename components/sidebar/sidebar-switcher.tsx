@@ -15,6 +15,8 @@ import { TabsList } from "../ui/tabs"
 import { WithTooltip } from "../ui/with-tooltip"
 import { ProfileSettings } from "../utility/profile-settings"
 import { SidebarSwitchItem } from "./sidebar-switch-item"
+import Image from "next/image"
+import labFortyLogo from "./items/LabForty_Logo-02.png"
 
 export const SIDEBAR_ICON_SIZE = 28
 
@@ -27,7 +29,13 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
 }) => {
   return (
     <div className="flex flex-col justify-between border-r-2 pb-5">
-      <TabsList className="bg-background grid h-[440px] grid-rows-7">
+      <TabsList className="bg-background grid h-[440px] grid-rows-9">
+        <Image
+          src={labFortyLogo}
+          width={100}
+          height={100}
+          alt="LabForty-Logo"
+        />
         <SidebarSwitchItem
           icon={<IconMessage size={SIDEBAR_ICON_SIZE} />}
           contentType="chats"
