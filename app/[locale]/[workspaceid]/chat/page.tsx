@@ -17,7 +17,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Image from "next/image"
 import { getProfileByUserId } from "@/db/profile"
-import labFortyLogo from "./LabForty_Logo-02.png"
+import labFortyLogo from "./LabForty_Logo_White.svg"
 
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())

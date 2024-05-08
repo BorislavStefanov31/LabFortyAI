@@ -10,7 +10,7 @@ import { Metadata } from "next"
 import { cookies, headers } from "next/headers"
 import { redirect } from "next/navigation"
 import Image from "next/image"
-import labFortyLogo from "./password/LabForty_Logo-02.png"
+import labFortyLogo from "./password/LabForty_Logo_White.svg"
 export const metadata: Metadata = {
   title: "Login"
 }

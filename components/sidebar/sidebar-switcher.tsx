@@ -16,7 +16,7 @@ import { WithTooltip } from "../ui/with-tooltip"
 import { ProfileSettings } from "../utility/profile-settings"
 import { SidebarSwitchItem } from "./sidebar-switch-item"
 import Image from "next/image"
-import labFortyLogo from "./items/LabForty_Logo-02.png"
+import labFortyLogo from "./items/LabForty_Logo_White.svg"
 
 export const SIDEBAR_ICON_SIZE = 28
 

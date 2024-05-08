@@ -5,7 +5,7 @@ import { IconArrowRight } from "@tabler/icons-react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
 import Image from "next/image"
-import labFortyLogo from "./LabForty_Logo-02.png"
+import labFortyLogo from "./LabForty_Logo_White.svg"
 
 export default function HomePage() {
   const { theme } = useTheme()
