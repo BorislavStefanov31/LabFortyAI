@@ -40,16 +40,16 @@ export const usePromptAndCommand = () => {
     const toolMatch = value.match(toolTextRegex)
 
     if (atMatch) {
-      setIsAssistantPickerOpen(true)
+      setIsAssistantPickerOpen(false)
       setAtCommand(atMatch[1])
     } else if (slashMatch) {
-      setIsPromptPickerOpen(true)
+      setIsPromptPickerOpen(false)
       setSlashCommand(slashMatch[1])
     } else if (hashtagMatch) {
-      setIsFilePickerOpen(true)
+      setIsFilePickerOpen(false)
       setHashtagCommand(hashtagMatch[1])
     } else if (toolMatch) {
-      setIsToolPickerOpen(true)
+      setIsToolPickerOpen(false)
       setToolCommand(toolMatch[1])
     } else {
       setIsPromptPickerOpen(false)
