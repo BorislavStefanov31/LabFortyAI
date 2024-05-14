@@ -1,12 +1,12 @@
 -- WORKSPACES
 
 UPDATE workspaces
-SET default_model = 'gpt-4-turbo-preview'
-WHERE default_model = 'gpt-4-1106-preview';
+SET default_model = 'gpt-4o'
+WHERE default_model = 'gpt-4o';
 
 UPDATE workspaces
-SET default_model = 'gpt-3.5-turbo'
-WHERE default_model = 'gpt-3.5-turbo-1106';
+SET default_model = 'gpt-4o'
+WHERE default_model = 'gpt-4o';
 
 -- PRESETS
 
@@ -93,7 +93,7 @@ BEGIN
         TRUE,
         'Home',
         4096,
-        'gpt-4-turbo-preview', -- Updated default model
+        'gpt-4o', -- Updated default model
         'You are a friendly, helpful AI assistant.',
         0.5,
         'My home workspace.',
