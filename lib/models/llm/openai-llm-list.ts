@@ -43,8 +43,8 @@ const GPT4O: LLM = {
 }
 
 export const OPENAI_LLM_LIST: LLM[] = [
+  GPT4O,
   GPT4Turbo,
   GPT4TurboPLus,
-  GPT4Vision,
-  GPT4O
+  GPT4Vision
 ]
