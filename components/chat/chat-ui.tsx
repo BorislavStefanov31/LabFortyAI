@@ -171,7 +171,8 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
 
     setSelectedChat(chat)
     setChatSettings({
-      model: chat.model as LLMID,
+      model:
+        chat.model === "gpt-4-turbo-preview" ? "gpt-4o" : (chat.model as LLMID),
       prompt: chat.prompt,
       temperature: chat.temperature,
       contextLength: chat.context_length,

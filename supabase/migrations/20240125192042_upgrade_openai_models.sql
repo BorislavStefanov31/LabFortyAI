@@ -11,8 +11,8 @@ WHERE default_model = 'gpt-4o';
 -- PRESETS
 
 UPDATE presets
-SET model = 'gpt-4-turbo-preview'
-WHERE model = 'gpt-4-1106-preview';
+SET model = 'gpt-4o'
+WHERE model = 'gpt-4o';
 
 UPDATE presets
 SET model = 'gpt-3.5-turbo'
@@ -31,7 +31,7 @@ WHERE model = 'gpt-3.5-turbo-1106';
 -- CHATS
 
 UPDATE chats
-SET model = 'gpt-4-turbo-preview'
+SET model = 'gpt-4o'
 WHERE model = 'gpt-4-1106-preview';
 
 UPDATE chats
