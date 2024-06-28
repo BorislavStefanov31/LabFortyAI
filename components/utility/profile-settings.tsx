@@ -632,7 +632,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {mistralClickCount >= 5 && envKeyMap["anthropic"] ? (
+                {false && envKeyMap["anthropic"] ? (
                   <Label>Anthropic API key set by admin.</Label>
                 ) : (
                   <>
@@ -664,7 +664,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {mistralClickCount >= 5 && envKeyMap["mistral"] ? (
+                {false && envKeyMap["mistral"] ? (
                   <Label>Mistral API key set by admin.</Label>
                 ) : (
                   <>
