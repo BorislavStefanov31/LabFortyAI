@@ -174,18 +174,16 @@ export const APIStep: FC<APIStepProps> = ({
         )}
       </div>
 
-      {false && (
-        <div className="space-y-1">
-          <Label>Anthropic API Key</Label>
+      <div className="space-y-1">
+        <Label>Anthropic API Key</Label>
 
-          <Input
-            placeholder="Anthropic API Key"
-            type="password"
-            value={anthropicAPIKey}
-            onChange={e => onAnthropicAPIKeyChange(e.target.value)}
-          />
-        </div>
-      )}
+        <Input
+          placeholder="Anthropic API Key"
+          type="password"
+          value={anthropicAPIKey}
+          onChange={e => onAnthropicAPIKeyChange(e.target.value)}
+        />
+      </div>
 
       <div className="space-y-1">
         <Label>Google Gemini API Key</Label>
