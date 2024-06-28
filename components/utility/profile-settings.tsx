@@ -476,7 +476,11 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   </>
                 ) : (
                   <>
-                    {mistralClickCount >= 5 && !envKeyMap["openai"] && (
+                    {true ? (
+                      <div className="space-y-1">
+                        <Label>OpenAI API key set by admin.</Label>
+                      </div>
+                    ) : (
                       <div className="space-y-1">
                         <Label>OpenAI API Key</Label>
                         <Input
@@ -632,7 +636,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {false && envKeyMap["anthropic"] ? (
+                {true ? (
                   <Label>Anthropic API key set by admin.</Label>
                 ) : (
                   <>
@@ -664,7 +668,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {false && envKeyMap["mistral"] ? (
+                {true ? (
                   <Label>Mistral API key set by admin.</Label>
                 ) : (
                   <>
