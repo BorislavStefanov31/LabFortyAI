@@ -62,7 +62,7 @@ const CLAUDE_3_5_SONNET: LLM = {
   provider: "anthropic",
   hostedId: "claude-3-5-sonnet-20240620",
   platformLink: ANTHROPIC_PLATFORM_LINK,
-  imageInput: true,
+  imageInput: true
 }
 
 export const ANTHROPIC_LLM_LIST: LLM[] = [
