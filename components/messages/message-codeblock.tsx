@@ -38,7 +38,7 @@ export const programmingLanguages: languageMap = {
   sql: ".sql",
   html: ".html",
   css: ".css",
-  razor: ".razor"
+  razor: ".cshtml"
 }
 
 export const generateRandomString = (length: number, lowercase = false) => {
