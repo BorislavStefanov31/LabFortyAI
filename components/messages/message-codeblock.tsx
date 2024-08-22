@@ -111,7 +111,7 @@ export const MessageCodeBlock: FC<MessageCodeBlockProps> = memo(
           </div>
         </div>
         <SyntaxHighlighter
-          language={language}
+          language={language === "razor" ? "php" : language}
           style={oneDark}
           // showLineNumbers
           customStyle={{
