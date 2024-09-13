@@ -257,49 +257,6 @@ export async function buildGoogleGeminiFinalMessages(
     }
 
     return GOOGLE_FORMATTED_MESSAGES
-  } else if ((chatSettings.model = "gemini-pro-vision")) {
-    // Gemini Pro Vision doesn't currently support messages
-    async function fileToGenerativePart(file: File) {
-      const base64EncodedDataPromise = new Promise(resolve => {
-        const reader = new FileReader()
-
-        reader.onloadend = () => {
-          if (typeof reader.result === "string") {
-            resolve(reader.result.split(",")[1])
-          }
-        }
-
-        reader.readAsDataURL(file)
-      })
-
-      return {
-        inlineData: {
-          data: await base64EncodedDataPromise,
-          mimeType: file.type
-        }
-      }
-    }
-
-    let prompt = ""
-
-    for (let i = 0; i < finalMessages.length; i++) {
-      prompt += `${finalMessages[i].role}:\n${finalMessages[i].content}\n\n`
-    }
-
-    const files = messageImageFiles.map(file => file.file)
-    const imageParts = await Promise.all(
-      files.map(file =>
-        file ? fileToGenerativePart(file) : Promise.resolve(null)
-      )
-    )
-
-    // FIX: Hacky until chat messages are supported
-    return [
-      {
-        prompt,
-        imageParts
-      }
-    ]
   }
 
   return finalMessages
