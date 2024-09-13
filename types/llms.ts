@@ -40,10 +40,8 @@ export type MistralLLMID =
 
 export type GroqLLMID =
   | "mixtral-8x7b-32768" // Mixtral-8x7b
-  | "llama-3.1-405b-reasoning" // LLaMA31-405b
   | "llama-3.1-70b-versatile" // LLaMA31-405b Instruct
   | "llama-3.1-8b-instant" // LLaMA31-405b Chat
-  | "llama3-groq-70b-8192-tool-use-preview" // LLaMA3 Groq 70B Tool Use
   | "llama3-groq-8b-8192-tool-use-preview" // LLaMA3 Groq 70B Translation
 
 // Perplexity Models (UPDATED 1/31/24)
