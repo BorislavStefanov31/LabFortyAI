@@ -44,9 +44,49 @@ const MISTRAL_LARGE: LLM = {
   imageInput: false
 }
 
+const OPEN_MISTRAL_NEMO: LLM = {
+  modelId: "open-mistral-nemo",
+  modelName: "Open Mistral Nemo",
+  provider: "mistral",
+  hostedId: "open-mistral-nemo",
+  platformLink: MISTRAL_PLATORM_LINK,
+  imageInput: false
+}
+
+const CODESTRAL_MAMBA_2407: LLM = {
+  modelId: "codestral-mamba-2407",
+  modelName: "CodeStral Mamba 2407",
+  provider: "mistral",
+  hostedId: "codestral-mamba-2407",
+  platformLink: MISTRAL_PLATORM_LINK,
+  imageInput: false
+}
+
+const CODESTRAL_2405: LLM = {
+  modelId: "codestral-2405",
+  modelName: "CodeStral 2405",
+  provider: "mistral",
+  hostedId: "codestral-2405",
+  platformLink: MISTRAL_PLATORM_LINK,
+  imageInput: false
+}
+
+const MISTRAL_LARGE_2407: LLM = {
+  modelId: "mistral-large-2407",
+  modelName: "Mistral Large 2407",
+  provider: "mistral",
+  hostedId: "mistral-large-2407",
+  platformLink: MISTRAL_PLATORM_LINK,
+  imageInput: false
+}
+
 export const MISTRAL_LLM_LIST: LLM[] = [
   MISTRAL_7B,
   MIXTRAL,
   MISTRAL_MEDIUM,
-  MISTRAL_LARGE
+  MISTRAL_LARGE,
+  OPEN_MISTRAL_NEMO,
+  CODESTRAL_MAMBA_2407,
+  CODESTRAL_2405,
+  MISTRAL_LARGE_2407
 ]
