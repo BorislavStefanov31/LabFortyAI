@@ -24,4 +24,17 @@ const GEMINI_PRO_VISION: LLM = {
   imageInput: true
 }
 
-export const GOOGLE_LLM_LIST: LLM[] = [GEMINI_PRO, GEMINI_PRO_VISION]
+const GEMINI_1_5_PRO_EXP0801: LLM = {
+  modelId: "gemini-1.5-pro-exp-0801",
+  modelName: "Gemini 1.5 Pro Exp 0801",
+  provider: "google",
+  hostedId: "gemini-1.5-pro-exp-0801",
+  platformLink: GOOGLE_PLATORM_LINK,
+  imageInput: true
+}
+
+export const GOOGLE_LLM_LIST: LLM[] = [
+  GEMINI_PRO,
+  GEMINI_PRO_VISION,
+  GEMINI_1_5_PRO_EXP0801
+]
