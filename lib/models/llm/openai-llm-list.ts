@@ -35,7 +35,7 @@ const GPT4O: LLM = {
 
 const o1: LLM = {
   modelId: "o1-preview",
-  modelName: "o1",
+  modelName: "o1 - waiting to get out of Beta",
   provider: "openai",
   hostedId: "o1-preview",
   platformLink: OPENAI_PLATORM_LINK,
