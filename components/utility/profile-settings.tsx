@@ -652,7 +652,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {envKeyMap["google"] ? (
+                {true ? (
                   <Label>Google Gemini API key set by admin.</Label>
                 ) : (
                   <>
@@ -687,7 +687,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {envKeyMap["groq"] ? (
+                {true ? (
                   <Label>Groq API key set by admin.</Label>
                 ) : (
                   <>
