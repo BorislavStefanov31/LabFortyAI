@@ -668,7 +668,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
 
               <div className="space-y-1">
-                {true ? (
+                {envKeyMap["mistral"] ? (
                   <Label>Mistral API key set by admin.</Label>
                 ) : (
                   <>
