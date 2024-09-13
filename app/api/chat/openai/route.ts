@@ -30,7 +30,8 @@ export async function POST(request: Request) {
       temperature: chatSettings.temperature,
       max_tokens:
         chatSettings.model === "gpt-4-vision-preview" ||
-        chatSettings.model === "gpt-4o"
+        chatSettings.model === "gpt-4o" ||
+        chatSettings.model === "o1-preview"
           ? 4096
           : null, // TODO: Fix
       stream: true
