@@ -50,37 +50,48 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         />
       </div>
 
-      <div className="space-y-1">
-        <Label>Prompt</Label>
+      {chatSettings.model !== "o1-preview" &&
+        chatSettings.model !== "o1-mini" && (
+          <div className="space-y-1">
+            <Label>Prompt</Label>
 
-        <TextareaAutosize
-          className="bg-background border-input border-2"
-          placeholder="You are a helpful AI assistant."
-          onValueChange={prompt => {
-            onChangeChatSettings({ ...chatSettings, prompt })
-          }}
-          value={chatSettings.prompt}
-          minRows={3}
-          maxRows={6}
-        />
-      </div>
+            <TextareaAutosize
+              className="bg-background border-input border-2"
+              placeholder="You are a helpful AI assistant."
+              onValueChange={prompt => {
+                onChangeChatSettings({ ...chatSettings, prompt })
+              }}
+              value={chatSettings.prompt}
+              minRows={3}
+              maxRows={6}
+            />
+          </div>
+        )}
 
-      {useAdvancedDropdown ? (
-        <AdvancedSettings>
-          <AdvancedContent
-            chatSettings={chatSettings}
-            onChangeChatSettings={onChangeChatSettings}
-            showTooltip={showTooltip}
-          />
-        </AdvancedSettings>
+      {chatSettings.model !== "o1-preview" &&
+      chatSettings.model !== "o1-mini" ? (
+        useAdvancedDropdown ? (
+          <AdvancedSettings>
+            <AdvancedContent
+              chatSettings={chatSettings}
+              onChangeChatSettings={onChangeChatSettings}
+              showTooltip={showTooltip}
+            />
+          </AdvancedSettings>
+        ) : (
+          <div>
+            <AdvancedContent
+              chatSettings={chatSettings}
+              onChangeChatSettings={onChangeChatSettings}
+              showTooltip={showTooltip}
+            />
+          </div>
+        )
       ) : (
-        <div>
-          <AdvancedContent
-            chatSettings={chatSettings}
-            onChangeChatSettings={onChangeChatSettings}
-            showTooltip={showTooltip}
-          />
-        </div>
+        <p>
+          The o1 and o1-mini models do not support advanced settings or
+          customization of the default prompt.
+        </p>
       )}
     </div>
   )

@@ -118,8 +118,9 @@ export async function buildFinalMessages(
     user_id: ""
   }
 
-  finalMessages.unshift(tempSystemMessage)
-
+  if (chatSettings.model !== "o1-preview" && chatSettings.model !== "o1-mini") {
+    finalMessages.unshift(tempSystemMessage)
+  }
   finalMessages = finalMessages.map(message => {
     let content
 
@@ -233,7 +234,9 @@ export async function buildGoogleGeminiFinalMessages(
     user_id: ""
   }
 
-  finalMessages.unshift(tempSystemMessage)
+  if (chatSettings.model !== "o1-preview" && chatSettings.model !== "o1-mini") {
+    finalMessages.unshift(tempSystemMessage)
+  }
 
   let GOOGLE_FORMATTED_MESSAGES = []
 

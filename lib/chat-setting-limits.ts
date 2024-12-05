@@ -166,6 +166,13 @@ export const CHAT_SETTING_LIMITS: Record<LLMID, ChatSettingLimits> = {
     MAX_CONTEXT_LENGTH: 128000
   },
 
+  "o1-mini": {
+    MIN_TEMPERATURE: 0.0,
+    MAX_TEMPERATURE: 2.0,
+    MAX_TOKEN_OUTPUT_LENGTH: 32768,
+    MAX_CONTEXT_LENGTH: 128000
+  },
+
   // PERPLEXITY MODELS
   "pplx-7b-online": {
     MIN_TEMPERATURE: 0.0,

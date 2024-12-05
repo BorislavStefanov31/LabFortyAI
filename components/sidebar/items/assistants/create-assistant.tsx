@@ -93,7 +93,8 @@ export const CreateAssistant: FC<CreateAssistantProps> = ({
       "gpt-4-vision-preview",
       "gpt-4o",
       "gpt-4o-mini",
-      "o1-preview"
+      "o1-preview",
+      "o1-mini"
     ]
     const isModelCompatible = compatibleModels.includes(
       assistantChatSettings.model
