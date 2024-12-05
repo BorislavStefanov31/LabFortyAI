@@ -39,9 +39,9 @@ export async function POST(request: Request) {
           ? 4096
           : null, // TODO: Fix
       stream: true
-    })
+    } as any)
 
-    const stream = OpenAIStream(response)
+    const stream = OpenAIStream(response as any)
 
     return new StreamingTextResponse(stream)
   } catch (error: any) {
