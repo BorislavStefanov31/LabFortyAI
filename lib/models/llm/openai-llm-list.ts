@@ -48,7 +48,7 @@ const o1: LLM = {
   provider: "openai",
   hostedId: "o1-preview",
   platformLink: OPENAI_PLATORM_LINK,
-  imageInput: true
+  imageInput: false
 }
 
 const o1Mini: LLM = {
@@ -57,7 +57,7 @@ const o1Mini: LLM = {
   provider: "openai",
   hostedId: "o1-mini",
   platformLink: OPENAI_PLATORM_LINK,
-  imageInput: true
+  imageInput: false
 }
 
 export const OPENAI_LLM_LIST: LLM[] = [
