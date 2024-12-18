@@ -43,12 +43,12 @@ const GPT4oMini: LLM = {
 }
 
 const o1: LLM = {
-  modelId: "o1-preview",
+  modelId: "o1",
   modelName: "o1",
   provider: "openai",
-  hostedId: "o1-preview",
+  hostedId: "o1",
   platformLink: OPENAI_PLATORM_LINK,
-  imageInput: false
+  imageInput: true
 }
 
 const o1Mini: LLM = {
