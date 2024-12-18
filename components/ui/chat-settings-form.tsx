@@ -50,24 +50,26 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         />
       </div>
 
-      {chatSettings.model !== "o1" && chatSettings.model !== "o1-mini" && (
-        <div className="space-y-1">
-          <Label>Prompt</Label>
+      {chatSettings.model !== "o1-preview" &&
+        chatSettings.model !== "o1-mini" && (
+          <div className="space-y-1">
+            <Label>Prompt</Label>
 
-          <TextareaAutosize
-            className="bg-background border-input border-2"
-            placeholder="You are a helpful AI assistant."
-            onValueChange={prompt => {
-              onChangeChatSettings({ ...chatSettings, prompt })
-            }}
-            value={chatSettings.prompt}
-            minRows={3}
-            maxRows={6}
-          />
-        </div>
-      )}
+            <TextareaAutosize
+              className="bg-background border-input border-2"
+              placeholder="You are a helpful AI assistant."
+              onValueChange={prompt => {
+                onChangeChatSettings({ ...chatSettings, prompt })
+              }}
+              value={chatSettings.prompt}
+              minRows={3}
+              maxRows={6}
+            />
+          </div>
+        )}
 
-      {chatSettings.model !== "o1" && chatSettings.model !== "o1-mini" ? (
+      {chatSettings.model !== "o1-preview" &&
+      chatSettings.model !== "o1-mini" ? (
         useAdvancedDropdown ? (
           <AdvancedSettings>
             <AdvancedContent
