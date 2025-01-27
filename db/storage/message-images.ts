@@ -6,7 +6,6 @@ export const uploadMessageImage = async (path: string, image: File) => {
   const imageSizeLimit = 6000000 // 6MB
 
   if (image.size > imageSizeLimit) {
-    console.log("🚀 ~ uploadMessageImage ~ image:", image)
     throw new Error(`Image must be less than ${imageSizeLimit / 1000000}MB`)
   }
 

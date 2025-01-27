@@ -9,7 +9,7 @@ export const runtime: ServerRuntime = "edge"
 
 export async function POST(request: Request) {
   const json = await request.json()
-  const { chatSettings, messages } = json as {
+  let { chatSettings, messages } = json as {
     chatSettings: ChatSettings
     messages: any[]
   }
@@ -24,26 +24,52 @@ export async function POST(request: Request) {
       organization: profile.openai_organization_id
     })
 
+    const isStreaming = chatSettings.model !== "o1"
+
+    // Add the specific message to the messages array
+    if (!isStreaming) {
+      messages.push({
+        role: "user",
+        content:
+          "If there (don't add code if there is no need) is a code give me it like this: \n\n```THE_PROGRAMMING_LANGUAGE_HERE\nsquares = [x**2 for x in range(10)]\n```"
+      })
+    }
+
     const response = await openai.chat.completions.create({
       model: chatSettings.model as ChatCompletionCreateParamsBase["model"],
       messages: messages as ChatCompletionCreateParamsBase["messages"],
       temperature:
-        chatSettings.model === "o1-preview" || chatSettings.model === "o1-mini"
+        chatSettings.model === "o1" ||
+        chatSettings.model === "o1-preview" ||
+        chatSettings.model === "o1-mini"
           ? 1
           : chatSettings.temperature,
       max_completion_tokens:
         chatSettings.model === "gpt-4-vision-preview" ||
         chatSettings.model === "gpt-4o" ||
+        chatSettings.model === "o1" ||
         chatSettings.model === "o1-preview" ||
         chatSettings.model === "o1-mini"
           ? 4096
           : null, // TODO: Fix
-      stream: true
+      stream: isStreaming
     } as any)
 
-    const stream = OpenAIStream(response as any)
-
-    return new StreamingTextResponse(stream)
+    if (isStreaming) {
+      const stream = OpenAIStream(response as any)
+      return new StreamingTextResponse(stream)
+    } else {
+      const messageContent =
+        response.choices[0]?.message?.content ||
+        "Some error happened DM Borislav Stefanov"
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode(messageContent))
+          controller.close()
+        }
+      })
+      return new StreamingTextResponse(stream)
+    }
   } catch (error: any) {
     let errorMessage = error.message || "An unexpected error occurred"
     const errorCode = error.status || 500

@@ -43,8 +43,17 @@ const GPT4oMini: LLM = {
 }
 
 const o1: LLM = {
-  modelId: "o1-preview",
+  modelId: "o1",
   modelName: "o1",
+  provider: "openai",
+  hostedId: "o1",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: false
+}
+
+const o1Preview: LLM = {
+  modelId: "o1-preview",
+  modelName: "o1-preview",
   provider: "openai",
   hostedId: "o1-preview",
   platformLink: OPENAI_PLATORM_LINK,
@@ -66,5 +75,6 @@ export const OPENAI_LLM_LIST: LLM[] = [
   GPT4Vision,
   GPT4oMini,
   o1,
+  o1Preview,
   o1Mini
 ]

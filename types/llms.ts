@@ -14,6 +14,7 @@ export type OpenAILLMID =
   | "gpt-4-vision-preview" // GPT-4 Vision
   | "gpt-4o-mini"
   | "gpt-4o"
+  | "o1"
   | "o1-preview"
   | "o1-mini"
 
