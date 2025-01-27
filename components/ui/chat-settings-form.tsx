@@ -50,7 +50,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         />
       </div>
 
-      {chatSettings.model !== "o1" && chatSettings.model !== "o1-mini" && (
+      {chatSettings.model !== "o1-preview" && chatSettings.model !== "o1-mini" && (
         <div className="space-y-1">
           <Label>Prompt</Label>
 
@@ -67,7 +67,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         </div>
       )}
 
-      {chatSettings.model !== "o1" && chatSettings.model !== "o1-mini" ? (
+      {chatSettings.model !== "o1-preview" && chatSettings.model !== "o1-mini" ? (
         useAdvancedDropdown ? (
           <AdvancedSettings>
             <AdvancedContent
