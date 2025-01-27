@@ -38,7 +38,7 @@ export async function POST(request: Request) {
         chatSettings.model === "o1-mini"
           ? 4096
           : null, // TODO: Fix
-      stream: true
+      stream: chatSettings.model === "o1" ? false : true
     } as any)
 
     const stream = OpenAIStream(response as any)
