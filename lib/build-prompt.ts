@@ -118,7 +118,7 @@ export async function buildFinalMessages(
     user_id: ""
   }
 
-  if (chatSettings.model !== "o1-preview" && chatSettings.model !== "o1-mini") {
+  if (chatSettings.model !== "o1" && chatSettings.model !== "o1-mini") {
     finalMessages.unshift(tempSystemMessage)
   }
   finalMessages = finalMessages.map(message => {
@@ -234,7 +234,7 @@ export async function buildGoogleGeminiFinalMessages(
     user_id: ""
   }
 
-  if (chatSettings.model !== "o1-preview" && chatSettings.model !== "o1-mini") {
+  if (chatSettings.model !== "o1" && chatSettings.model !== "o1-mini") {
     finalMessages.unshift(tempSystemMessage)
   }
 

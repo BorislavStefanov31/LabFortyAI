@@ -28,13 +28,13 @@ export async function POST(request: Request) {
       model: chatSettings.model as ChatCompletionCreateParamsBase["model"],
       messages: messages as ChatCompletionCreateParamsBase["messages"],
       temperature:
-        chatSettings.model === "o1-preview" || chatSettings.model === "o1-mini"
+        chatSettings.model === "o1" || chatSettings.model === "o1-mini"
           ? 1
           : chatSettings.temperature,
       max_completion_tokens:
         chatSettings.model === "gpt-4-vision-preview" ||
         chatSettings.model === "gpt-4o" ||
-        chatSettings.model === "o1-preview" ||
+        chatSettings.model === "o1" ||
         chatSettings.model === "o1-mini"
           ? 4096
           : null, // TODO: Fix
