@@ -182,7 +182,7 @@ export const useChatHandler = () => {
   }
 
   const handleStopMessage = () => {
-    if (abortController) {
+    if (abortController && chatSettings?.model !== "o1") {
       abortController.abort()
     }
   }
