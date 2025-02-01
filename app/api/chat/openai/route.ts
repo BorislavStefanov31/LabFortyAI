@@ -24,7 +24,8 @@ export async function POST(request: Request) {
       organization: profile.openai_organization_id
     })
 
-    const isStreaming = chatSettings.model !== "o1"
+    const isStreaming =
+      chatSettings.model !== "o1" && chatSettings.model !== "o3-mini"
 
     // Add the specific message to the messages array
     if (!isStreaming) {
@@ -41,7 +42,8 @@ export async function POST(request: Request) {
       temperature:
         chatSettings.model === "o1" ||
         chatSettings.model === "o1-preview" ||
-        chatSettings.model === "o1-mini"
+        chatSettings.model === "o1-mini" ||
+        chatSettings.model === "o3-mini"
           ? 1
           : chatSettings.temperature,
       max_completion_tokens:
@@ -49,13 +51,16 @@ export async function POST(request: Request) {
         chatSettings.model === "gpt-4o" ||
         chatSettings.model === "o1" ||
         chatSettings.model === "o1-preview" ||
-        chatSettings.model === "o1-mini"
-          ? 4096
+        chatSettings.model === "o1-mini" ||
+        chatSettings.model === "o3-mini"
+          ? chatSettings.model === "o1" || chatSettings.model === "o3-mini"
+            ? 100000
+            : 16384
           : null, // TODO: Fix
-      stream: isStreaming
+      stream: isStreaming || chatSettings.model === "o3-mini"
     } as any)
 
-    if (isStreaming) {
+    if (isStreaming || chatSettings.model === "o3-mini") {
       const stream = OpenAIStream(response as any)
       return new StreamingTextResponse(stream)
     } else {

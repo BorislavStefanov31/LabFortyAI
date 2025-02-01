@@ -69,6 +69,15 @@ const o1Mini: LLM = {
   imageInput: false
 }
 
+const o3Mini: LLM = {
+  modelId: "o3-mini",
+  modelName: "o3-mini",
+  provider: "openai",
+  hostedId: "o3-mini",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: false
+}
+
 export const OPENAI_LLM_LIST: LLM[] = [
   GPT4O,
   GPT4Turbo,
@@ -76,5 +85,6 @@ export const OPENAI_LLM_LIST: LLM[] = [
   GPT4oMini,
   o1,
   o1Preview,
-  o1Mini
+  o1Mini,
+  o3Mini
 ]
