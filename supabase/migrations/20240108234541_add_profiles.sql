@@ -125,7 +125,7 @@ BEGIN
         NEW.id,
         TRUE,
         'Home',
-        200000,
+        30000,
         'gpt-4o',
         'You are a friendly, helpful AI assistant.',
         0.5,
