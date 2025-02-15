@@ -24,11 +24,10 @@ export async function POST(request: Request) {
       organization: profile.openai_organization_id
     })
 
-    const isStreaming =
-      chatSettings.model !== "o1" && chatSettings.model !== "o3-mini"
+    const isStreaming = chatSettings.model !== "o3-mini"
 
     // Add the specific message to the messages array
-    if (!isStreaming) {
+    if (!isStreaming || chatSettings.model === "o1") {
       messages.push({
         role: "user",
         content:
