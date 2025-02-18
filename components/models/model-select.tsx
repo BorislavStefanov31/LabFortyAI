@@ -175,6 +175,7 @@ export const ModelSelect: FC<ModelSelectProps> = ({
 
                 <div className="mb-4">
                   {filteredModels.map(model => {
+                    if (model.modelId === "gpt-4o") return null
                     return (
                       <div
                         key={model.modelId}

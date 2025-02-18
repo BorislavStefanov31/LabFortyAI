@@ -1,18 +1,18 @@
 -- WORKSPACES
 
 UPDATE workspaces
-SET default_model = 'gpt-4o'
-WHERE default_model = 'gpt-4o';
+SET default_model = 'chatgpt-4o-latest'
+WHERE default_model = 'chatgpt-4o-latest';
 
 UPDATE workspaces
-SET default_model = 'gpt-4o'
-WHERE default_model = 'gpt-4o';
+SET default_model = 'chatgpt-4o-latest'
+WHERE default_model = 'chatgpt-4o-latest';
 
 -- PRESETS
 
 UPDATE presets
-SET model = 'gpt-4o'
-WHERE model = 'gpt-4o';
+SET model = 'chatgpt-4o-latest'
+WHERE model = 'chatgpt-4o-latest';
 
 UPDATE presets
 SET model = 'gpt-3.5-turbo'
@@ -31,8 +31,12 @@ WHERE model = 'gpt-3.5-turbo-1106';
 -- CHATS
 
 UPDATE chats
-SET model = 'gpt-4o'
+SET model = 'chatgpt-4o-latest'
 WHERE model = 'gpt-4-1106-preview';
+
+UPDATE chats
+SET model = 'chatgpt-4o-latest'
+WHERE model = 'gpt-4o';
 
 UPDATE chats
 SET model = 'gpt-3.5-turbo'
@@ -93,7 +97,7 @@ BEGIN
         TRUE,
         'Home',
         30000,
-        'gpt-4o', -- Updated default model
+        'chatgpt-4o-latest', -- Updated default model
         'You are a friendly, helpful AI assistant.',
         0.5,
         'My home workspace.',

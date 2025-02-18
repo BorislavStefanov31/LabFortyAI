@@ -126,7 +126,7 @@ BEGIN
         TRUE,
         'Home',
         30000,
-        'gpt-4o',
+        'chatgpt-4o-latest',
         'You are a friendly, helpful AI assistant.',
         0.5,
         'My home workspace.',

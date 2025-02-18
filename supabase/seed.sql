@@ -42,7 +42,7 @@ BEGIN
 
   -- start data for presets
   INSERT INTO presets (user_id, created_at, updated_at, sharing, include_profile_context, include_workspace_instructions, context_length, model, name, prompt, temperature, description, embeddings_provider) VALUES
-  ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'private', TRUE, TRUE, 4000, 'gpt-4o', 'Preset 1', 'Prompt 1', 0.5, 'Description for Preset 1', 'openai');
+  ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'private', TRUE, TRUE, 4000, 'chatgpt-4o-latest', 'Preset 1', 'Prompt 1', 0.5, 'Description for Preset 1', 'openai');
 
   -- Get preset id
   DECLARE
@@ -72,7 +72,7 @@ BEGIN
 
   -- Start data for chats 
   INSERT INTO chats (user_id, workspace_id, name, model, prompt, temperature, context_length, include_profile_context, include_workspace_instructions, embeddings_provider) VALUES 
-  ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', workspace1_id, 'Chat 1', 'gpt-4o', 'You are an assistant.', 0.5, 4000, TRUE, TRUE, 'openai');
+  ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', workspace1_id, 'Chat 1', 'chatgpt-4o-latest', 'You are an assistant.', 0.5, 4000, TRUE, TRUE, 'openai');
 
   DECLARE
     folder1_id UUID;
@@ -80,7 +80,7 @@ BEGIN
     SELECT id INTO folder1_id FROM folders WHERE name='Chat Folder 1';
 
     INSERT INTO chats (user_id, workspace_id, name, model, prompt, temperature, context_length, include_profile_context, include_workspace_instructions, folder_id, embeddings_provider) VALUES 
-    ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', workspace1_id, 'Chat 4', 'gpt-4o', 'You are an assistant.', 0.5, 4000, TRUE, TRUE, folder1_id, 'openai');
+    ('e9fc7e46-a8a5-4fd4-8ba7-af485013e6fa', workspace1_id, 'Chat 4', 'chatgpt-4o-latest', 'You are an assistant.', 0.5, 4000, TRUE, TRUE, folder1_id, 'openai');
   END;
 
   -- Start data for messages 

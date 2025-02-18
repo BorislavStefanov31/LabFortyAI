@@ -47,6 +47,7 @@ export async function POST(request: Request) {
           : chatSettings.temperature,
       max_completion_tokens:
         chatSettings.model === "gpt-4-vision-preview" ||
+        chatSettings.model === "chatgpt-4o-latest" ||
         chatSettings.model === "gpt-4o" ||
         chatSettings.model === "o1" ||
         chatSettings.model === "o1-preview" ||

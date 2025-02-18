@@ -24,6 +24,15 @@ const GPT4Vision: LLM = {
   imageInput: true
 }
 
+const GPT4OLatest: LLM = {
+  modelId: "chatgpt-4o-latest",
+  modelName: "GPT-4o",
+  provider: "openai",
+  hostedId: "chatgpt-4o-latest",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
+}
+
 const GPT4O: LLM = {
   modelId: "gpt-4o",
   modelName: "GPT-4o",
@@ -86,5 +95,6 @@ export const OPENAI_LLM_LIST: LLM[] = [
   o1,
   o1Preview,
   o1Mini,
-  o3Mini
+  o3Mini,
+  GPT4OLatest
 ]
