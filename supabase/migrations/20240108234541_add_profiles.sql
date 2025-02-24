@@ -125,7 +125,7 @@ BEGIN
         NEW.id,
         TRUE,
         'Home',
-        30000,
+        4096,
         'chatgpt-4o-latest',
         'You are a friendly, helpful AI assistant.',
         0.5,
