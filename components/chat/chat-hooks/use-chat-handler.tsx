@@ -164,7 +164,7 @@ export const useChatHandler = () => {
           selectedWorkspace.default_prompt ||
           "You are a friendly, helpful AI assistant.",
         temperature: selectedWorkspace.default_temperature || 0.5,
-        contextLength: selectedWorkspace.default_context_length || 4096,
+        contextLength: selectedWorkspace.default_context_length || 10000,
         includeProfileContext:
           selectedWorkspace.include_profile_context || true,
         includeWorkspaceInstructions:
