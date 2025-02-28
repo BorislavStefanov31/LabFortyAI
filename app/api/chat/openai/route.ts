@@ -46,17 +46,19 @@ export async function POST(request: Request) {
           ? 1
           : chatSettings.temperature,
       max_completion_tokens:
-        chatSettings.model === "gpt-4-vision-preview" ||
-        chatSettings.model === "chatgpt-4o-latest" ||
-        chatSettings.model === "gpt-4o" ||
-        chatSettings.model === "o1" ||
-        chatSettings.model === "o1-preview" ||
-        chatSettings.model === "o1-mini" ||
-        chatSettings.model === "o3-mini"
-          ? chatSettings.model === "o1" || chatSettings.model === "o3-mini"
-            ? 100000
-            : 16384
-          : null, // TODO: Fix
+        chatSettings.model === "gpt-4.5-preview"
+          ? 1000
+          : chatSettings.model === "gpt-4-vision-preview" ||
+              chatSettings.model === "chatgpt-4o-latest" ||
+              chatSettings.model === "gpt-4o" ||
+              chatSettings.model === "o1" ||
+              chatSettings.model === "o1-preview" ||
+              chatSettings.model === "o1-mini" ||
+              chatSettings.model === "o3-mini"
+            ? chatSettings.model === "o1" || chatSettings.model === "o3-mini"
+              ? 100000
+              : 16384
+            : null, // TODO: Fix
       stream: isStreaming || chatSettings.model === "o3-mini"
     } as any)
 
