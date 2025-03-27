@@ -56,7 +56,7 @@ export async function POST(request: Request) {
               chatSettings.model === "o1-mini" ||
               chatSettings.model === "o3-mini"
             ? chatSettings.model === "o1" || chatSettings.model === "o3-mini"
-              ? 100000
+              ? 4096
               : 16384
             : null, // TODO: Fix
       stream: isStreaming || chatSettings.model === "o3-mini"

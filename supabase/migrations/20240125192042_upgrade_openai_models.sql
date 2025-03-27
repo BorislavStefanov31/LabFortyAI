@@ -96,7 +96,7 @@ BEGIN
         NEW.id,
         TRUE,
         'Home',
-        10000,
+        4096,
         'chatgpt-4o-latest', -- Updated default model
         'You are a friendly, helpful AI assistant.',
         0.5,
