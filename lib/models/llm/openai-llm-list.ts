@@ -14,15 +14,15 @@ const GPT4Turbo: LLM = {
   imageInput: false
 }
 
-// GPT-4 Vision (UPDATED 12/18/23)
-const GPT4Vision: LLM = {
-  modelId: "gpt-4-vision-preview",
-  modelName: "GPT-4 Vision",
-  provider: "openai",
-  hostedId: "gpt-4-vision-preview",
-  platformLink: OPENAI_PLATORM_LINK,
-  imageInput: true
-}
+// // GPT-4 Vision (UPDATED 12/18/23)
+// const GPT4Vision: LLM = {
+//   modelId: "gpt-4-vision-preview",
+//   modelName: "GPT-4 Vision",
+//   provider: "openai",
+//   hostedId: "gpt-4-vision-preview",
+//   platformLink: OPENAI_PLATORM_LINK,
+//   imageInput: true
+// }
 
 const GPT4OLatest: LLM = {
   modelId: "chatgpt-4o-latest",
@@ -99,7 +99,7 @@ const GPT45Preview: LLM = {
 export const OPENAI_LLM_LIST: LLM[] = [
   GPT4O,
   GPT4Turbo,
-  GPT4Vision,
+  // GPT4Vision,
   GPT4oMini,
   o1,
   o1Preview,
