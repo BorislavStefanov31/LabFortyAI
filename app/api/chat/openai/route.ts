@@ -26,6 +26,22 @@ export async function POST(request: Request) {
 
     const isStreaming = chatSettings.model !== "o3-mini"
 
+    if (chatSettings.model === "gpt-4o-search-preview") {
+      messages = messages.map(message => {
+        if (Array.isArray(message.content)) {
+          const textContents = message.content
+            .filter((item: { type: string }) => item.type === "text")
+            .map((item: { text: any }) => item.text)
+
+          return {
+            ...message,
+            content: textContents.join(" ")
+          }
+        }
+        return message
+      })
+    }
+
     // Add the specific message to the messages array
     if (!isStreaming || chatSettings.model === "o1") {
       messages.push({
