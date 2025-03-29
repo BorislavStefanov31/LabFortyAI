@@ -121,7 +121,8 @@ export async function buildFinalMessages(
   if (
     chatSettings.model !== "o1" &&
     chatSettings.model !== "o1-preview" &&
-    chatSettings.model !== "o1-mini"
+    chatSettings.model !== "o1-mini" &&
+    chatSettings.model !== "gpt-4o-search-preview"
   ) {
     finalMessages.unshift(tempSystemMessage)
   }

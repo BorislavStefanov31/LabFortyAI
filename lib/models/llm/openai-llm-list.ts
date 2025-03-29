@@ -96,10 +96,19 @@ const GPT45Preview: LLM = {
   imageInput: false
 }
 
+const GPT4SearchPreview: LLM = {
+  modelId: "gpt-4o-search-preview",
+  modelName: "GPT-4o (Web Search)",
+  provider: "openai",
+  hostedId: "gpt-4o-search-preview",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: false
+}
+
 export const OPENAI_LLM_LIST: LLM[] = [
   GPT4O,
   GPT4Turbo,
-  // GPT4Vision,
+  GPT4SearchPreview,
   GPT4oMini,
   o1,
   o1Preview,

@@ -35,32 +35,41 @@ export async function POST(request: Request) {
       })
     }
 
-    const response = await openai.chat.completions.create({
+    const requestOptions = {
       model: chatSettings.model as ChatCompletionCreateParamsBase["model"],
       messages: messages as ChatCompletionCreateParamsBase["messages"],
-      temperature:
+      stream: isStreaming || chatSettings.model === "o3-mini"
+    } as any
+
+    if (chatSettings.model !== "gpt-4o-search-preview") {
+      requestOptions.temperature =
         chatSettings.model === "o1" ||
         chatSettings.model === "o1-preview" ||
         chatSettings.model === "o1-mini" ||
         chatSettings.model === "o3-mini"
           ? 1
-          : chatSettings.temperature,
-      max_completion_tokens:
-        chatSettings.model === "gpt-4.5-preview"
-          ? 1000
-          : chatSettings.model === "gpt-4-vision-preview" ||
-              chatSettings.model === "chatgpt-4o-latest" ||
-              chatSettings.model === "gpt-4o" ||
-              chatSettings.model === "o1" ||
-              chatSettings.model === "o1-preview" ||
-              chatSettings.model === "o1-mini" ||
-              chatSettings.model === "o3-mini"
-            ? chatSettings.model === "o1" || chatSettings.model === "o3-mini"
-              ? 4096
-              : 16384
-            : null, // TODO: Fix
-      stream: isStreaming || chatSettings.model === "o3-mini"
-    } as any)
+          : chatSettings.temperature
+    }
+
+    if (chatSettings.model === "gpt-4.5-preview") {
+      requestOptions.max_completion_tokens = 1000
+    } else if (
+      chatSettings.model === "gpt-4-vision-preview" ||
+      chatSettings.model === "chatgpt-4o-latest" ||
+      chatSettings.model === "gpt-4o" ||
+      chatSettings.model === "o1" ||
+      chatSettings.model === "o1-preview" ||
+      chatSettings.model === "o1-mini" ||
+      chatSettings.model === "o3-mini" ||
+      chatSettings.model === "gpt-4o-search-preview"
+    ) {
+      requestOptions.max_completion_tokens =
+        chatSettings.model === "o1" || chatSettings.model === "o3-mini"
+          ? 4096
+          : 16384
+    }
+
+    const response = await openai.chat.completions.create(requestOptions)
 
     if (isStreaming || chatSettings.model === "o3-mini") {
       const stream = OpenAIStream(response as any)

@@ -6,7 +6,8 @@ import {
   IconBolt,
   IconCirclePlus,
   IconPlayerStopFilled,
-  IconSend
+  IconSend,
+  IconWorld
 } from "@tabler/icons-react"
 import Image from "next/image"
 import { FC, useContext, useEffect, useRef, useState } from "react"
@@ -20,6 +21,7 @@ import { useChatHandler } from "./chat-hooks/use-chat-handler"
 import { useChatHistoryHandler } from "./chat-hooks/use-chat-history"
 import { usePromptAndCommand } from "./chat-hooks/use-prompt-and-command"
 import { useSelectFileHandler } from "./chat-hooks/use-select-file-handler"
+import { Switch } from "../ui/switch"
 
 interface ChatInputProps {}
 
@@ -52,6 +54,7 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
     isFilePickerOpen,
     setFocusFile,
     chatSettings,
+    setChatSettings,
     selectedTools,
     setSelectedTools,
     assistantImages
@@ -162,6 +165,21 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
     }
   }
 
+  const toggleWebSearch = () => {
+    if (chatSettings) {
+      const isSearchEnabled = chatSettings.model === "gpt-4o-search-preview"
+
+      setChatSettings({
+        ...chatSettings,
+        model: isSearchEnabled ? "chatgpt-4o-latest" : "gpt-4o-search-preview"
+      })
+
+      toast.success(
+        isSearchEnabled ? "Web search disabled" : "Web search enabled"
+      )
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col flex-wrap justify-center gap-2">
@@ -211,6 +229,20 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
         )}
       </div>
 
+      {(chatSettings?.model === "chatgpt-4o-latest" ||
+        chatSettings?.model === "gpt-4o-search-preview") && (
+        <div className="mb-2 flex justify-end">
+          <div className="flex items-center space-x-2 rounded-lg p-1">
+            <IconWorld size={18} />
+            <span className="text-sm">Web Search</span>
+            <Switch
+              checked={chatSettings?.model === "gpt-4o-search-preview"}
+              onCheckedChange={toggleWebSearch}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="border-input relative mt-3 flex min-h-[60px] w-full items-center justify-center rounded-xl border-2">
         <div className="absolute bottom-[76px] left-0 max-h-[300px] w-full overflow-auto rounded-xl dark:border-none">
           <ChatCommandInput />
@@ -239,10 +271,7 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
         <TextareaAutosize
           textareaRef={chatInputRef}
           className="ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring text-md flex w-full resize-none rounded-md border-none bg-transparent px-14 py-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-          placeholder={t(
-            // `Ask anything. Type "@" for assistants, "/" for prompts, "#" for files, and "!" for tools.`
-            `Write your message here`
-          )}
+          placeholder={t(`Write your message here`)}
           onValueChange={handleInputChange}
           value={userInput}
           minRows={1}

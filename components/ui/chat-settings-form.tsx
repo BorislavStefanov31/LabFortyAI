@@ -52,6 +52,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
 
       {chatSettings.model !== "o1" &&
         chatSettings.model !== "o1-preview" &&
+        chatSettings.model !== "gpt-4o-search-preview" &&
         chatSettings.model !== "o1-mini" && (
           <div className="space-y-1">
             <Label>Prompt</Label>
