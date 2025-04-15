@@ -93,7 +93,25 @@ const GPT41Preview: LLM = {
   provider: "openai",
   hostedId: "gpt-4.1",
   platformLink: OPENAI_PLATORM_LINK,
-  imageInput: false
+  imageInput: true
+}
+
+const GPT41PreviewNano: LLM = {
+  modelId: "gpt-4.1-nano",
+  modelName: "GPT 4.1 nano",
+  provider: "openai",
+  hostedId: "gpt-4.1-nano",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
+}
+
+const GPT41PreviewMini: LLM = {
+  modelId: "gpt-4.1-mini",
+  modelName: "GPT 4.1 mini",
+  provider: "openai",
+  hostedId: "gpt-4.1-mini",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
 }
 
 const GPT45Preview: LLM = {
@@ -123,7 +141,9 @@ export const OPENAI_LLM_LIST: LLM[] = [
   o1Preview,
   o1Mini,
   o3Mini,
-  GPT4OLatest,
+  GPT41PreviewNano,
+  GPT41PreviewMini,
   GPT41Preview,
-  GPT45Preview
+  GPT45Preview,
+  GPT4OLatest
 ]
