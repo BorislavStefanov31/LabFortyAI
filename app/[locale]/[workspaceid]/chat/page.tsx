@@ -25,7 +25,15 @@ export default function ChatPage() {
     handleFocusChatInput()
   })
 
-  const { chatMessages } = useContext(ChatbotUIContext)
+  const { chatMessages, chatSettings } = useContext(ChatbotUIContext)
+
+  const [defaultModel, setDefaultModel] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!defaultModel && chatSettings?.model) {
+      setDefaultModel(chatSettings.model)
+    }
+  }, [chatSettings, defaultModel])
 
   const fetchStartingData: any = async () => {
     const session = (await supabase.auth.getSession()).data.session
@@ -229,13 +237,13 @@ export default function ChatPage() {
           </div>
 
           <div className="absolute right-2 top-2">
-            <ChatSettings />
+            <ChatSettings setDefaultModel={setDefaultModel} />
           </div>
 
           <div className="flex grow flex-col items-center justify-center" />
 
           <div className="w-full min-w-[300px] items-end px-2 pb-3 pt-0 sm:w-[600px] sm:pb-8 sm:pt-5 md:w-[700px] lg:w-[700px] xl:w-[800px]">
-            <ChatInput />
+            <ChatInput defaultModel={defaultModel} />
           </div>
 
           <div className="absolute bottom-2 right-2 hidden md:block lg:bottom-4 lg:right-4">
@@ -243,7 +251,7 @@ export default function ChatPage() {
           </div>
         </div>
       ) : (
-        <ChatUI />
+        <ChatUI setDefaultModel={setDefaultModel} defaultModel={defaultModel} />
       )}
     </>
   )

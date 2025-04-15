@@ -8,9 +8,11 @@ import { Button } from "../ui/button"
 import { ChatSettingsForm } from "../ui/chat-settings-form"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 
-interface ChatSettingsProps {}
+interface ChatSettingsProps {
+  setDefaultModel: any
+}
 
-export const ChatSettings: FC<ChatSettingsProps> = ({}) => {
+export const ChatSettings: FC<ChatSettingsProps> = ({ setDefaultModel }) => {
   useHotkey("i", () => handleClick())
 
   const {
@@ -87,6 +89,7 @@ export const ChatSettings: FC<ChatSettingsProps> = ({}) => {
         <ChatSettingsForm
           chatSettings={chatSettings}
           onChangeChatSettings={setChatSettings}
+          setDefaultModel={setDefaultModel}
         />
       </PopoverContent>
     </Popover>
