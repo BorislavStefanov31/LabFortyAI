@@ -87,6 +87,15 @@ const o3Mini: LLM = {
   imageInput: false
 }
 
+const GPT41Preview: LLM = {
+  modelId: "gpt-4.1",
+  modelName: "GPT 4.1",
+  provider: "openai",
+  hostedId: "gpt-4.1",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: false
+}
+
 const GPT45Preview: LLM = {
   modelId: "gpt-4.5-preview",
   modelName: "gpt-4.5-preview",
@@ -115,5 +124,6 @@ export const OPENAI_LLM_LIST: LLM[] = [
   o1Mini,
   o3Mini,
   GPT4OLatest,
+  GPT41Preview,
   GPT45Preview
 ]
