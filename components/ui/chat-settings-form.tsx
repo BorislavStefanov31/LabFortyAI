@@ -25,7 +25,7 @@ interface ChatSettingsFormProps {
   onChangeChatSettings: (value: ChatSettings) => void
   useAdvancedDropdown?: boolean
   showTooltip?: boolean
-  setDefaultModel: any
+  setDefaultModel?: any
 }
 
 export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
@@ -47,7 +47,9 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         <ModelSelect
           selectedModelId={chatSettings.model}
           onSelectModel={model => {
-            setDefaultModel(model)
+            if (setDefaultModel) {
+              setDefaultModel(model)
+            }
             onChangeChatSettings({ ...chatSettings, model })
           }}
         />
