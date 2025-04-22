@@ -31,7 +31,7 @@ export const ChatHelp: FC<ChatHelpProps> = ({}) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="flex items-center justify-between">
+        {/* <DropdownMenuLabel className="flex items-center justify-between">
           <div className="flex space-x-2">
             <Announcements />
 
@@ -44,9 +44,9 @@ export const ChatHelp: FC<ChatHelpProps> = ({}) => {
               <IconHelpCircle size={24} />
             </Link>
           </div>
-        </DropdownMenuLabel>
+        </DropdownMenuLabel> */}
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator /> */}
 
         <DropdownMenuItem className="flex justify-between">
           <div>Show Help</div>
