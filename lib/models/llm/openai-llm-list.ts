@@ -132,6 +132,24 @@ const GPT4SearchPreview: LLM = {
   imageInput: false
 }
 
+const o3: LLM = {
+  modelId: "o3",
+  modelName: "o3",
+  provider: "openai",
+  hostedId: "o3",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
+}
+
+const o4Mini: LLM = {
+  modelId: "o4-mini",
+  modelName: "o4-mini",
+  provider: "openai",
+  hostedId: "o4-mini",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
+}
+
 export const OPENAI_LLM_LIST: LLM[] = [
   GPT4O,
   GPT4Turbo,
@@ -141,9 +159,11 @@ export const OPENAI_LLM_LIST: LLM[] = [
   o1Preview,
   o1Mini,
   o3Mini,
+  o3,
+  o4Mini,
+  GPT4OLatest,
   GPT41PreviewNano,
   GPT41PreviewMini,
   GPT41Preview,
-  GPT45Preview,
-  GPT4OLatest
+  GPT45Preview
 ]

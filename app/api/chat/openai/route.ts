@@ -62,7 +62,9 @@ export async function POST(request: Request) {
         chatSettings.model === "o1" ||
         chatSettings.model === "o1-preview" ||
         chatSettings.model === "o1-mini" ||
-        chatSettings.model === "o3-mini"
+        chatSettings.model === "o3-mini" ||
+        chatSettings.model === "o3" ||
+        chatSettings.model === "o4-mini"
           ? 1
           : chatSettings.temperature
     }
