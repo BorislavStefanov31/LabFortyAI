@@ -61,6 +61,13 @@ export const CHAT_SETTING_LIMITS: Record<LLMID, ChatSettingLimits> = {
     MAX_CONTEXT_LENGTH: 30720
   },
 
+  "gemini-2.5-pro-preview-05-06": {
+    MIN_TEMPERATURE: 0.0,
+    MAX_TEMPERATURE: 1.0,
+    MAX_TOKEN_OUTPUT_LENGTH: 4096,
+    MAX_CONTEXT_LENGTH: 100000
+  },
+
   // MISTRAL MODELS
   "mistral-tiny": {
     MIN_TEMPERATURE: 0.0,
