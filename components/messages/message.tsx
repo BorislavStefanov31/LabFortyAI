@@ -91,6 +91,24 @@ export const Message: FC<MessageProps> = ({
     isLoading: true
   })
 
+  const isJSONComplete = (content: any) => {
+    if (typeof content !== "string") return false
+
+    // Check if the content ends with a complete JSON object containing image info
+    const jsonMatch = content.match(/(\{.*\})$/)
+    if (jsonMatch) {
+      try {
+        const json = JSON.parse(jsonMatch[0])
+        return !!(json.content || json.imagePath)
+      } catch (e) {
+        return false
+      }
+    }
+
+    // Check if the content contains a direct URL
+    return content.includes("supabase.co/storage")
+  }
+
   useEffect(() => {
     const fetchImageData = async () => {
       if (
@@ -99,67 +117,109 @@ export const Message: FC<MessageProps> = ({
         message.content
       ) {
         try {
-          let imagePath = null
+          // Check if the content contains a complete JSON response with a URL
+          let contentStr = message.content
+          let jsonMatch = null
 
-          if (typeof message.content === "string") {
-            if (message.content.startsWith("{")) {
-              const parsed = JSON.parse(message.content)
-              imagePath = parsed.imagePath || null
-            }
+          if (typeof contentStr === "string") {
+            // Try to find a JSON object at the end of the string
+            jsonMatch = contentStr.match(/(\{.*\})$/)
           }
 
-          if (message.image_paths && message.image_paths.length > 0) {
-            imagePath = message.image_paths[0]
-          }
+          if (jsonMatch) {
+            try {
+              const jsonContent = JSON.parse(jsonMatch[0])
 
-          if (imagePath) {
-            const url = await getMessageImageFromStorage(imagePath)
+              if (jsonContent.content || jsonContent.imagePath) {
+                // We have a complete response with image data
+                let imagePath = jsonContent.imagePath
+                let directUrl = jsonContent.content
 
-            if (url) {
-              const response = await fetch(url)
-              const blob = await response.blob()
-              const base64 = await convertBlobToBase64(blob)
+                if (imagePath) {
+                  const url = await getMessageImageFromStorage(imagePath)
 
-              setImageData({
-                url,
-                base64,
-                isLoading: false
-              })
-            } else {
-              setImageData({
-                url: null,
-                base64: null,
-                isLoading: false
-              })
-            }
-          } else {
-            let directUrl = null
+                  if (url) {
+                    const response = await fetch(url)
+                    const blob = await response.blob()
+                    const base64 = await convertBlobToBase64(blob)
 
-            if (typeof message.content === "string") {
-              if (message.content.startsWith("{")) {
-                const parsed = JSON.parse(message.content)
-                directUrl = parsed.content || null
-              } else if (message.content.includes("supabase.co/storage")) {
-                directUrl = message.content
+                    setImageData({
+                      url,
+                      base64,
+                      isLoading: false
+                    })
+                    return
+                  }
+                } else if (directUrl) {
+                  setImageData({
+                    url: directUrl,
+                    base64: null,
+                    isLoading: false
+                  })
+                  return
+                }
               }
-            }
-
-            if (directUrl) {
-              setImageData({
-                url: directUrl,
-                base64: null,
-                isLoading: false
-              })
-            } else {
-              setImageData({
-                url: null,
-                base64: null,
-                isLoading: false
-              })
+            } catch (e) {
+              console.error("Error parsing JSON in content:", e)
             }
           }
+
+          // Check for direct URL in the content
+          if (
+            typeof contentStr === "string" &&
+            contentStr.includes("supabase.co/storage")
+          ) {
+            const urlMatch = contentStr.match(
+              /(https:\/\/.*?supabase\.co\/storage\/[^\s"]+)/
+            )
+            if (urlMatch) {
+              setImageData({
+                url: urlMatch[0],
+                base64: null,
+                isLoading: false
+              })
+              return
+            }
+          }
+
+          // Check image_paths as a fallback
+          if (message.image_paths && message.image_paths.length > 0) {
+            const imagePath = message.image_paths[0]
+            if (imagePath) {
+              if (imagePath.startsWith("data")) {
+                // It's already a base64 string
+                setImageData({
+                  url: null,
+                  base64: imagePath,
+                  isLoading: false
+                })
+              } else {
+                // Need to fetch from storage
+                const url = await getMessageImageFromStorage(imagePath)
+                if (url) {
+                  const response = await fetch(url)
+                  const blob = await response.blob()
+                  const base64 = await convertBlobToBase64(blob)
+
+                  setImageData({
+                    url,
+                    base64,
+                    isLoading: false
+                  })
+                }
+              }
+              return
+            }
+          }
+
+          // If we get here, we're still loading or streaming
+          setImageData({
+            url: null,
+            base64: null,
+            isLoading: true
+          })
         } catch (e) {
-          console.error("Error fetching image:", e)
+          console.error("Error processing image content:", e)
           setImageData({
             url: null,
             base64: null,
@@ -403,31 +463,43 @@ export const Message: FC<MessageProps> = ({
             />
           ) : isImageMessage ? (
             <div className="my-2">
-              {imageData.isLoading ? (
-                <div
-                  className="animate-pulse rounded-md bg-gray-200 dark:bg-gray-700"
-                  style={{ width: "100%", height: "1024px" }}
-                ></div>
-              ) : imageData.base64 ? (
+              {/* Show the streaming text content */}
+              <MessageMarkdown
+                content={
+                  typeof message.content === "string"
+                    ? message.content.replace(/\{.*\}$/, "") // Strip the JSON part for display
+                    : message.content
+                }
+              />
+
+              {/* Only show image when we have valid data */}
+              {!imageData.isLoading && (imageData.base64 || imageData.url) ? (
                 <Image
-                  src={`${imageData.base64}`}
+                  src={imageData.base64 || imageData.url || ""}
                   alt="Generated image"
                   width={1024}
                   height={1024}
                   onClick={() => {
                     setSelectedImage({
                       messageId: message.id,
-                      path: (message.content as any).imagePath,
+                      path:
+                        typeof message.content === "object"
+                          ? (message.content as any).imagePath
+                          : "",
                       base64: imageData.base64 || "",
                       url: imageData.url || "",
                       file: null
                     })
-
                     setShowImagePreview(true)
                   }}
                   loading="lazy"
-                  className="cursor-zoom-in rounded-md"
+                  className="mt-4 cursor-zoom-in rounded-md"
                 />
+              ) : imageData.isLoading && isJSONComplete(message.content) ? (
+                <div
+                  className="mt-4 animate-pulse rounded-md bg-gray-200 dark:bg-gray-700"
+                  style={{ width: "100%", height: "512px" }}
+                ></div>
               ) : null}
             </div>
           ) : (
