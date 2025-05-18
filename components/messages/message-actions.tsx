@@ -24,7 +24,7 @@ export const MessageActions: FC<MessageActionsProps> = ({
   onEdit,
   onRegenerate
 }) => {
-  const { isGenerating } = useContext(ChatbotUIContext)
+  const { isGenerating, chatSettings } = useContext(ChatbotUIContext)
 
   const [showCheckmark, setShowCheckmark] = useState(false)
 
@@ -62,7 +62,7 @@ export const MessageActions: FC<MessageActionsProps> = ({
         />
       )} */}
 
-      {!isAssistant && isHovering && (
+      {!isAssistant && isHovering && chatSettings?.model !== "gpt-image-1" && (
         <WithTooltip
           delayDuration={1000}
           side="bottom"
