@@ -9,60 +9,36 @@ import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completion
 
 function getLastImageFromMessage(messages: any[]) {
   if (!messages || messages.length === 0) {
-    console.log("No messages found")
     return null
   }
-
-  console.log(`Searching for image in ${messages.length} messages`)
 
   for (let i = messages.length - 1; i >= 0; i--) {
     const message = messages[i]
 
-    // Debug message content
-    console.log(
-      `Checking message ${i}, role: ${message.role}, content type: ${typeof message.content}`
-    )
-
     if (Array.isArray(message.content)) {
-      console.log(
-        `Message ${i} has array content with ${message.content.length} items`
-      )
       const imageItems = message.content.filter(
         (item: { type: string }) => item.type === "image_url"
       )
       if (imageItems.length > 0) {
-        console.log(`Found image URL in message ${i}`)
         return imageItems[0].image_url.url
       }
     }
 
     if (typeof message.content === "string" && message.role === "assistant") {
-      // First try to parse as JSON
       try {
         const parsedContent = JSON.parse(message.content)
         if (parsedContent.imagePath) {
-          console.log(
-            `Found image path in message ${i}: ${parsedContent.imagePath}`
-          )
           return parsedContent.imagePath
         }
       } catch (e) {
-        // If parsing fails, try to extract imagePath using regex
-        console.log(
-          `JSON parsing failed for message ${i}, trying regex extraction`
-        )
         const imagePathMatch = message.content.match(/"imagePath":"([^"]+)"/)
         if (imagePathMatch && imagePathMatch[1]) {
-          console.log(
-            `Found image path using regex in message ${i}: ${imagePathMatch[1]}`
-          )
           return imagePathMatch[1]
         }
       }
     }
   }
 
-  console.log("No image found in any message")
   return null
 }
 
@@ -95,7 +71,6 @@ export async function POST(request: Request) {
     chatSettings: ChatSettings
     messages: any[]
   }
-  console.log("🚀 ~ POST ~ messages:", messages)
 
   try {
     const profile = await getServerProfile()
@@ -108,7 +83,6 @@ export async function POST(request: Request) {
     })
 
     if (chatSettings.model === "gpt-image-1") {
-      // Set up a streaming response
       const encoder = new TextEncoder()
       const stream = new ReadableStream({
         async start(controller) {
@@ -116,7 +90,6 @@ export async function POST(request: Request) {
           let controllerClosed = false
 
           try {
-            // Start sending loading messages
             const loadingMessages = [
               "Creating your image...",
               "Generating visual content...",
@@ -145,7 +118,6 @@ export async function POST(request: Request) {
               }
             }, 10000)
 
-            // Extract user messages and process image as before
             const userMessages = messages.filter(msg => msg.role === "user")
             let combinedPrompt = ""
 
@@ -162,10 +134,35 @@ export async function POST(request: Request) {
             }
 
             combinedPrompt = combinedPrompt.trim()
-            const hasImages = messages.length > 2
+            const hasImages =
+              messages.length > 2 ||
+              (() => {
+                if (messages.length === 0) return false
+
+                const lastMessage = messages[messages.length - 1]
+
+                if (Array.isArray(lastMessage.content)) {
+                  return lastMessage.content.some(
+                    (item: { type: string }) => item.type === "image_url"
+                  )
+                }
+
+                if (typeof lastMessage.content === "string") {
+                  try {
+                    const parsedContent = JSON.parse(lastMessage.content)
+                    if (parsedContent.imagePath) return true
+                  } catch (e) {
+                    const imagePathMatch = lastMessage.content.match(
+                      /"imagePath":"([^"]+)"/
+                    )
+                    if (imagePathMatch && imagePathMatch[1]) return true
+                  }
+                }
+
+                return false
+              })()
             let imageResponse
 
-            // Image generation logic remains the same
             if (hasImages) {
               const imageDataUrl = getLastImageFromMessage(messages)
 
@@ -230,7 +227,6 @@ export async function POST(request: Request) {
               })
             }
 
-            // Stop the interval once we have the image
             if (intervalId) {
               clearInterval(intervalId)
               intervalId = null
@@ -257,7 +253,6 @@ export async function POST(request: Request) {
 
               const imageUrl = publicUrlData.publicUrl
 
-              // Send the final response with the image URL
               if (!controllerClosed) {
                 controller.enqueue(
                   encoder.encode(
@@ -273,7 +268,6 @@ export async function POST(request: Request) {
               }
             }
           } catch (error) {
-            // Clean up interval if there's an error
             if (intervalId) {
               clearInterval(intervalId)
               intervalId = null
@@ -308,7 +302,6 @@ export async function POST(request: Request) {
       })
     }
 
-    // Add the specific message to the messages array
     if (!isStreaming || chatSettings.model === "o1") {
       messages.push({
         role: "user",
