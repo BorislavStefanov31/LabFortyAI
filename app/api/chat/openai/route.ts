@@ -276,7 +276,7 @@ export async function POST(request: Request) {
             if (!controllerClosed) {
               controller.enqueue(
                 encoder.encode(
-                  " - Oops. Something went wrong, please try again.xw"
+                  " - Oops. Something went wrong, please try again"
                 )
               )
               controller.close()
