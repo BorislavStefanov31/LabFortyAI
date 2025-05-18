@@ -274,7 +274,12 @@ export async function POST(request: Request) {
             }
 
             if (!controllerClosed) {
-              controller.error(error)
+              controller.enqueue(
+                encoder.encode(
+                  " - Oops. Something went wrong, please try again.xw"
+                )
+              )
+              controller.close()
               controllerClosed = true
             }
           }

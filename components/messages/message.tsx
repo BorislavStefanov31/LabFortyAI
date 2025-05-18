@@ -235,6 +235,8 @@ export const Message: FC<MessageProps> = ({
   const isImageMessage =
     message.role === "assistant" && message.model === "gpt-image-1"
 
+  const isImagePresent = imageData.base64 || imageData.url
+
   const handleCopy = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(message.content)
@@ -463,16 +465,15 @@ export const Message: FC<MessageProps> = ({
             />
           ) : isImageMessage ? (
             <div className="my-2">
-              {/* Show the streaming text content */}
-              <MessageMarkdown
-                content={
-                  typeof message.content === "string"
-                    ? message.content.replace(/\{.*\}$/, "") // Strip the JSON part for display
-                    : message.content
-                }
-              />
-
-              {/* Only show image when we have valid data */}
+              {!isImagePresent ? (
+                <MessageMarkdown
+                  content={
+                    typeof message.content === "string"
+                      ? message.content.replace(/\{.*\}$/, "") // Strip the JSON part for display
+                      : message.content
+                  }
+                />
+              ) : null}
               {!imageData.isLoading && (imageData.base64 || imageData.url) ? (
                 <Image
                   src={imageData.base64 || imageData.url || ""}
