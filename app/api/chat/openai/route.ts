@@ -1,9 +1,62 @@
+import { getMessageImageFromStorage } from "@/db/storage/message-images-server"
 import { checkApiKey, getServerProfile } from "@/lib/server/server-chat-helpers"
+import { supabase } from "@/lib/supabase/browser-client"
 import { ChatSettings } from "@/types"
 import { OpenAIStream, StreamingTextResponse } from "ai"
 import { ServerRuntime } from "next"
 import OpenAI from "openai"
 import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions.mjs"
+
+function getLastImageFromMessage(messages: any[]) {
+  if (!messages || messages.length === 0) {
+    return null
+  }
+
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const message = messages[i]
+
+    if (Array.isArray(message.content)) {
+      const imageItems = message.content.filter(
+        (item: { type: string }) => item.type === "image_url"
+      )
+      if (imageItems.length > 0) {
+        return imageItems[0].image_url.url
+      }
+    }
+
+    if (typeof message.content === "string" && message.role === "assistant") {
+      try {
+        const parsedContent = JSON.parse(message.content)
+        if (parsedContent.imagePath) {
+          return parsedContent.imagePath
+        }
+      } catch (e) {}
+    }
+  }
+
+  return null
+}
+
+function getLastMessageText(messages: any) {
+  if (!messages || messages.length === 0) {
+    return ""
+  }
+
+  const lastMessage = messages[messages.length - 1]
+
+  if (Array.isArray(lastMessage.content)) {
+    const textItems = lastMessage.content.filter(
+      (item: { type: string }) => item.type === "text"
+    )
+    return textItems.map((item: { text: any }) => item.text).join(" ")
+  }
+
+  if (typeof lastMessage.content === "string") {
+    return lastMessage.content
+  }
+
+  return ""
+}
 
 export const runtime: ServerRuntime = "edge"
 
@@ -23,6 +76,120 @@ export async function POST(request: Request) {
       apiKey: profile.openai_api_key || "",
       organization: profile.openai_organization_id
     })
+
+    if (chatSettings.model === "gpt-image-1") {
+      const userMessages = messages.filter(msg => msg.role === "user")
+      let combinedPrompt = ""
+
+      for (const message of userMessages) {
+        if (Array.isArray(message.content)) {
+          const textContent = message.content
+            .filter((item: { type: string }) => item.type === "text")
+            .map((item: { text: any }) => item.text)
+            .join(" ")
+          combinedPrompt += textContent + " "
+        } else {
+          combinedPrompt += message.content + " "
+        }
+      }
+
+      combinedPrompt = combinedPrompt.trim()
+
+      const hasImages = messages.length > 2
+
+      let imageResponse
+
+      if (hasImages) {
+        const imageDataUrl = getLastImageFromMessage(messages)
+
+        const lastMessageText = getLastMessageText(messages)
+
+        if (!imageDataUrl) {
+          throw new Error("No valid image found in message")
+        }
+
+        let imageBlob
+
+        if (
+          typeof imageDataUrl === "string" &&
+          imageDataUrl.startsWith("ai_generated_images/")
+        ) {
+          const publicUrlData = await getMessageImageFromStorage(imageDataUrl)
+
+          if (!publicUrlData) {
+            throw new Error("Failed to get public URL for image")
+          }
+
+          const imageResponse = await fetch(publicUrlData)
+          imageBlob = await imageResponse.blob()
+        } else {
+          const imageResponse = await fetch(imageDataUrl)
+          imageBlob = await imageResponse.blob()
+        }
+
+        const formData = new FormData()
+        formData.append("image", imageBlob, "image.png")
+        formData.append("prompt", lastMessageText)
+        formData.append("model", "gpt-image-1")
+        formData.append("n", "1")
+
+        const openaiResponse = await fetch(
+          "https://api.openai.com/v1/images/edits",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${profile.openai_api_key}`
+            },
+            body: formData
+          }
+        )
+
+        const imageResponseData = await openaiResponse.json()
+
+        if (!openaiResponse.ok) {
+          console.error("OpenAI API error:", imageResponseData)
+          throw new Error(
+            `OpenAI API error: ${imageResponseData.error?.message || "Unknown error"}`
+          )
+        }
+
+        imageResponse = imageResponseData
+      } else {
+        imageResponse = await openai.images.generate({
+          model: "gpt-image-1",
+          prompt: combinedPrompt,
+          n: 1
+        })
+      }
+
+      const imageData = imageResponse.data[0]?.b64_json
+
+      if (imageData) {
+        const fileName = `ai_generated_images/generated-image-${Date.now()}`
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("message_images")
+          .upload(fileName, Buffer.from(imageData, "base64"), {
+            contentType: "image/png"
+          })
+
+        if (uploadError) {
+          throw new Error("Failed to upload image to Supabase storage")
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from("message_images")
+          .getPublicUrl(uploadData.path)
+
+        const imageUrl = publicUrlData.publicUrl
+
+        return new Response(
+          JSON.stringify({
+            content: imageUrl,
+            imagePath: uploadData.path
+          })
+        )
+      }
+    }
 
     const isStreaming = chatSettings.model !== "o3-mini"
 

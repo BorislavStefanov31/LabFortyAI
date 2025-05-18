@@ -58,6 +58,7 @@ export const ChatInput: FC<ChatInputProps> = ({ defaultModel }) => {
     chatSettings,
     setChatSettings,
     selectedTools,
+    newMessageImages,
     setSelectedTools,
     assistantImages
   } = useContext(ChatbotUIContext)
@@ -68,6 +69,8 @@ export const ChatInput: FC<ChatInputProps> = ({ defaultModel }) => {
     handleStopMessage,
     handleFocusChatInput
   } = useChatHandler()
+
+  const imageFileTypes = "image/png, image/jpeg, image/webp"
 
   const { handleInputChange } = usePromptAndCommand()
 
@@ -245,17 +248,18 @@ export const ChatInput: FC<ChatInputProps> = ({ defaultModel }) => {
         )}
       </div>
 
-      <div className="mb-2 flex justify-end">
-        <div className="flex items-center space-x-2 rounded-lg p-1">
-          <IconWorld size={18} />
-          <span className="text-sm">Web Search</span>
-          <Switch
-            checked={chatSettings?.model === "gpt-4o-search-preview"}
-            onCheckedChange={toggleWebSearch}
-          />
+      {chatSettings?.model !== "gpt-image-1" ? (
+        <div className="mb-2 flex justify-end">
+          <div className="flex items-center space-x-2 rounded-lg p-1">
+            <IconWorld size={18} />
+            <span className="text-sm">Web Search</span>
+            <Switch
+              checked={chatSettings?.model === "gpt-4o-search-preview"}
+              onCheckedChange={toggleWebSearch}
+            />
+          </div>
         </div>
-      </div>
-
+      ) : null}
       <div className="border-input relative mt-3 flex min-h-[60px] w-full items-center justify-center rounded-xl border-2">
         <div className="absolute bottom-[76px] left-0 max-h-[300px] w-full overflow-auto rounded-xl dark:border-none">
           <ChatCommandInput />
@@ -263,7 +267,12 @@ export const ChatInput: FC<ChatInputProps> = ({ defaultModel }) => {
 
         <>
           <IconCirclePlus
-            className="absolute bottom-[12px] left-3 cursor-pointer p-1 hover:opacity-50"
+            className={`absolute bottom-[12px] left-3 p-1 ${
+              chatSettings?.model === "gpt-image-1" &&
+              !!newMessageImages?.length
+                ? "cursor-not-allowed opacity-40"
+                : "cursor-pointer hover:opacity-50"
+            }`}
             size={32}
             onClick={() => fileInputRef.current?.click()}
           />
@@ -277,7 +286,15 @@ export const ChatInput: FC<ChatInputProps> = ({ defaultModel }) => {
               if (!e.target.files) return
               handleSelectDeviceFile(e.target.files[0])
             }}
-            accept={filesToAccept}
+            disabled={
+              chatSettings?.model === "gpt-image-1" &&
+              !!newMessageImages?.length
+            }
+            accept={
+              chatSettings?.model === "gpt-image-1"
+                ? imageFileTypes
+                : filesToAccept
+            }
           />
         </>
 

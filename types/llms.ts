@@ -26,6 +26,7 @@ export type OpenAILLMID =
   | "gpt-4.1-mini"
   | "o3"
   | "o4-mini"
+  | "gpt-image-1"
 
 // Google Models
 export type GoogleLLMID = "gemini-pro" | "gemini-2.5-pro-preview-05-06" // Gemini Pro

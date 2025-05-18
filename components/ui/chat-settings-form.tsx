@@ -58,7 +58,8 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
       {chatSettings.model !== "o1" &&
         chatSettings.model !== "o1-preview" &&
         chatSettings.model !== "gpt-4o-search-preview" &&
-        chatSettings.model !== "o1-mini" && (
+        chatSettings.model !== "o1-mini" &&
+        chatSettings.model !== "gpt-image-1" && (
           <div className="space-y-1">
             <Label>Prompt</Label>
 
@@ -75,7 +76,9 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
           </div>
         )}
 
-      {chatSettings.model !== "o1" && chatSettings.model !== "o1-mini" ? (
+      {chatSettings.model !== "o1" &&
+      chatSettings.model !== "o1-mini" &&
+      chatSettings?.model !== "gpt-image-1" ? (
         useAdvancedDropdown ? (
           <AdvancedSettings>
             <AdvancedContent
@@ -94,10 +97,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
           </div>
         )
       ) : (
-        <p>
-          The o1 and o1-mini models do not support advanced settings or
-          customization of the default prompt.
-        </p>
+        <p>This model does not support advanced settings.</p>
       )}
     </div>
   )

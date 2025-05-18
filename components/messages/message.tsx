@@ -23,6 +23,8 @@ import { TextareaAutosize } from "../ui/textarea-autosize"
 import { WithTooltip } from "../ui/with-tooltip"
 import { MessageActions } from "./message-actions"
 import { MessageMarkdown } from "./message-markdown"
+import { getMessageImageFromStorage } from "@/db/storage/message-images"
+import { convertBlobToBase64 } from "@/lib/blob-to-b64"
 
 const ICON_SIZE = 32
 
@@ -57,6 +59,7 @@ export const Message: FC<MessageProps> = ({
     selectedAssistant,
     chatImages,
     assistantImages,
+    chatSettings,
     toolInUse,
     files,
     models
@@ -77,6 +80,100 @@ export const Message: FC<MessageProps> = ({
     useState<Tables<"file_items"> | null>(null)
 
   const [viewSources, setViewSources] = useState(false)
+
+  const [imageData, setImageData] = useState<{
+    url: string | null
+    base64: string | null
+    isLoading: boolean
+  }>({
+    url: null,
+    base64: null,
+    isLoading: true
+  })
+
+  useEffect(() => {
+    const fetchImageData = async () => {
+      if (
+        message.role === "assistant" &&
+        message.model === "gpt-image-1" &&
+        message.content
+      ) {
+        try {
+          let imagePath = null
+
+          if (typeof message.content === "string") {
+            if (message.content.startsWith("{")) {
+              const parsed = JSON.parse(message.content)
+              imagePath = parsed.imagePath || null
+            }
+          }
+
+          if (message.image_paths && message.image_paths.length > 0) {
+            imagePath = message.image_paths[0]
+          }
+
+          if (imagePath) {
+            const url = await getMessageImageFromStorage(imagePath)
+
+            if (url) {
+              const response = await fetch(url)
+              const blob = await response.blob()
+              const base64 = await convertBlobToBase64(blob)
+
+              setImageData({
+                url,
+                base64,
+                isLoading: false
+              })
+            } else {
+              setImageData({
+                url: null,
+                base64: null,
+                isLoading: false
+              })
+            }
+          } else {
+            let directUrl = null
+
+            if (typeof message.content === "string") {
+              if (message.content.startsWith("{")) {
+                const parsed = JSON.parse(message.content)
+                directUrl = parsed.content || null
+              } else if (message.content.includes("supabase.co/storage")) {
+                directUrl = message.content
+              }
+            }
+
+            if (directUrl) {
+              setImageData({
+                url: directUrl,
+                base64: null,
+                isLoading: false
+              })
+            } else {
+              setImageData({
+                url: null,
+                base64: null,
+                isLoading: false
+              })
+            }
+          }
+        } catch (e) {
+          console.error("Error fetching image:", e)
+          setImageData({
+            url: null,
+            base64: null,
+            isLoading: false
+          })
+        }
+      }
+    }
+
+    fetchImageData()
+  }, [message])
+
+  const isImageMessage =
+    message.role === "assistant" && message.model === "gpt-image-1"
 
   const handleCopy = () => {
     if (navigator.clipboard) {
@@ -304,6 +401,35 @@ export const Message: FC<MessageProps> = ({
               onValueChange={setEditedMessage}
               maxRows={20}
             />
+          ) : isImageMessage ? (
+            <div className="my-2">
+              {imageData.isLoading ? (
+                <div
+                  className="animate-pulse rounded-md bg-gray-200 dark:bg-gray-700"
+                  style={{ width: "100%", height: "1024px" }}
+                ></div>
+              ) : imageData.base64 ? (
+                <Image
+                  src={`${imageData.base64}`}
+                  alt="Generated image"
+                  width={1024}
+                  height={1024}
+                  onClick={() => {
+                    setSelectedImage({
+                      messageId: message.id,
+                      path: (message.content as any).imagePath,
+                      base64: imageData.base64 || "",
+                      url: imageData.url || "",
+                      file: null
+                    })
+
+                    setShowImagePreview(true)
+                  }}
+                  loading="lazy"
+                  className="cursor-zoom-in rounded-md"
+                />
+              ) : null}
+            </div>
           ) : (
             <MessageMarkdown content={message.content} />
           )}

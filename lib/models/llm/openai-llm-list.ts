@@ -150,6 +150,15 @@ const o4Mini: LLM = {
   imageInput: true
 }
 
+const GPTImage1: LLM = {
+  modelId: "gpt-image-1",
+  modelName: "Image Generator",
+  provider: "openai",
+  hostedId: "gpt-image-1",
+  platformLink: OPENAI_PLATORM_LINK,
+  imageInput: true
+}
+
 export const OPENAI_LLM_LIST: LLM[] = [
   GPT4O,
   GPT4Turbo,
@@ -165,5 +174,6 @@ export const OPENAI_LLM_LIST: LLM[] = [
   GPT41PreviewNano,
   GPT41PreviewMini,
   GPT41Preview,
-  GPT45Preview
+  GPT45Preview,
+  GPTImage1
 ]
