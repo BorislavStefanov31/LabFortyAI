@@ -74,6 +74,24 @@ const CLAUDE_3_7_SONNET: LLM = {
   imageInput: true
 }
 
+const CLAUDE_OPUS_4: LLM = {
+  modelId: "claude-opus-4-20250514",
+  modelName: "Claude 4 Opus",
+  provider: "anthropic",
+  hostedId: "claude-opus-4-20250514",
+  platformLink: ANTHROPIC_PLATFORM_LINK,
+  imageInput: true
+}
+
+const CLAUDE_SONNET_4: LLM = {
+  modelId: "claude-sonnet-4-20250514",
+  modelName: "Claude 4 Sonnet",
+  provider: "anthropic",
+  hostedId: "claude-sonnet-4-20250514",
+  platformLink: ANTHROPIC_PLATFORM_LINK,
+  imageInput: true
+}
+
 export const ANTHROPIC_LLM_LIST: LLM[] = [
   CLAUDE_2,
   CLAUDE_INSTANT,
@@ -81,5 +99,7 @@ export const ANTHROPIC_LLM_LIST: LLM[] = [
   CLAUDE_3_SONNET,
   CLAUDE_3_OPUS,
   CLAUDE_3_5_SONNET,
-  CLAUDE_3_7_SONNET
+  CLAUDE_3_7_SONNET,
+  CLAUDE_OPUS_4,
+  CLAUDE_SONNET_4
 ]
