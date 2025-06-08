@@ -78,13 +78,13 @@ This prevents issues with storage files not being deleted properly.
 
 ### 6. Run app locally
 
-In your terminal at the root of your local Chatbot UI repository, run:
+In your terminal at the root of your local repository, run:
 
 ```bash
 npm run chat
 ```
 
-Your local instance of Chatbot UI should now be running at [http://localhost:3000](http://localhost:3000). Be sure to use a compatible node version (i.e. v18).
+Your local instance should now be running at [http://localhost:3000](http://localhost:3000). Be sure to use a compatible node version (i.e. v18).
 
 You can view your backend GUI at [http://localhost:54323/project/default/editor](http://localhost:54323/project/default/editor).
 
@@ -136,14 +136,14 @@ We recommend turning off "Confirm email" for your own personal instance.
 
 #### 4. Connect to Hosted DB
 
-Open up your repository for your hosted instance of Chatbot UI.
+Open up your repository for your hosted instance.
 
 In the 1st migration file `supabase/migrations/20240108234540_setup.sql` you will need to replace 2 values with the values you got above:
 
 - `project_url` (line 53): Use the `Project URL` value from above
 - `service_role_key` (line 54): Use the `Service role key` value from above
 
-Now, open a terminal in the root directory of your local Chatbot UI repository. We will execute a few commands here.
+Now, open a terminal in the root directory of your local repository. We will execute a few commands here.
 
 Login to Supabase by running:
 
@@ -171,7 +171,7 @@ Your hosted database should now be set up!
 
 Go to [Vercel](https://vercel.com/) and create a new project.
 
-In the setup page, import your GitHub repository for your hosted instance of Chatbot UI. Within the project Settings, in the "Build & Development Settings" section, switch Framework Preset to "Next.js".
+In the setup page, import your GitHub repository for your hosted instance of. Within the project Settings, in the "Build & Development Settings" section, switch Framework Preset to "Next.js".
 
 In environment variables, add the following from the values you got above:
 
@@ -191,4 +191,4 @@ For the full list of environment variables, refer to the '.env.local.example' fi
 
 Click "Deploy" and wait for your frontend to deploy.
 
-Once deployed, you should be able to use your hosted instance of Chatbot UI via the URL Vercel gives you.
+Once deployed, you should be able to use your hosted instance of via the URL Vercel gives you.
