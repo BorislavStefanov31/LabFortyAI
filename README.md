@@ -1,8 +1,6 @@
 ## Hosted Quickstart
 
-Follow these steps to get your own Chatbot UI instance running in the cloud.
-
-### 1. Follow Local Quickstart
+Follow these steps to get your own instance running in the cloud.
 
 ### 1. Fork and Clone the Repo
 
