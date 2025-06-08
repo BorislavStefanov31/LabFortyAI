@@ -4,6 +4,8 @@
 
 First, fork the repository to your GitHub account by clicking the "Fork" button in the top right corner of the page
 
+Then clone it:
+
 ```bash
 git clone https://github.com/YourName/YourRepo.git
 ```
