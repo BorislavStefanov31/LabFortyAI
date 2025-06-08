@@ -76,10 +76,6 @@ In the 1st migration file `supabase/migrations/20240108234540_setup.sql` you wil
 
 This prevents issues with storage files not being deleted properly.
 
-### 5. Install Ollama (optional for local models)
-
-Follow the instructions [here](https://github.com/jmorganca/ollama#macos).
-
 ### 6. Run app locally
 
 In your terminal at the root of your local Chatbot UI repository, run:
