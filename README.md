@@ -134,7 +134,7 @@ Next, click on the "Authentication" icon tab on the far left.
 
 In the text tabs, click on "Providers" and make sure "Email" is enabled.
 
-Turn off "Confirm email" for your own personal instance.
+Turn off "Confirm email"
 
 #### 4. Connect to Hosted DB
 
