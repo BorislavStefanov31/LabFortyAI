@@ -1,5 +1,7 @@
 ## Hosted Quickstart
 
+First you will need atleast one API account in the most popular LLM Providers such as: OpenAI, Anthropic, Google Gemini etc...
+
 Follow these steps to get your own instance running in the cloud.
 
 ### 1. Fork and Clone the Repo
@@ -156,3 +158,5 @@ For the full list of environment variables, refer to the '.env.local.example' fi
 Click "Deploy" and wait for your frontend to deploy.
 
 Once deployed, you should be able to use your hosted instance of via the URL Vercel gives you.
+
+Once you are done for the "Image Generation" model to be able to work you should go into https://supabase.com/dashboard/project/<YOUR_PROJECT_ID>/storage/buckets/message_images and create a folder called ai_generated_images
