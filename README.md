@@ -96,11 +96,74 @@ Follow these steps to get your own Chatbot UI instance running in the cloud.
 
 ### 1. Follow Local Quickstart
 
-Repeat steps 1-4 in "Local Quickstart" above.
+### 1. Fork and Clone the Repo
 
-You will want separate repositories for your local and hosted instances.
+First, fork the repository to your GitHub account by clicking the "Fork" button in the top right corner of the page
 
-Create a new repository for your hosted instance of Chatbot UI on GitHub and push your code to it.
+Then clone it:
+
+```bash
+git clone https://github.com/YourName/YourRepo.git
+```
+
+### 2. Install Dependencies
+
+Open a terminal in the root directory of your local repository and run:
+
+```bash
+npm install
+```
+
+### 3. Install Supabase & Run Locally
+
+#### 1. Install Docker
+
+You will need to install Docker to run Supabase locally. You can download it [here](https://docs.docker.com/get-docker) for free.
+
+#### 2. Install Supabase CLI
+
+**MacOS/Linux**
+
+```bash
+brew install supabase/tap/supabase
+```
+
+**Windows**
+
+```bash
+scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+scoop install supabase
+```
+
+#### 3. Start Supabase
+
+In your terminal at the root of your local repository, run:
+
+```bash
+supabase start
+```
+
+### 4. Fill in Secrets
+
+#### 1. Environment Variables
+
+In your terminal at the root of your local repository, run:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Get the required values by running:
+
+```bash
+supabase status
+```
+
+Note: Use `API URL` from `supabase status` for `NEXT_PUBLIC_SUPABASE_URL`
+
+Now go to your `.env.local` file and fill in the values.
+
+If the environment variable is set, it will disable the input in the user settings.
 
 ### 2. Setup Backend with Supabase
 
