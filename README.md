@@ -160,3 +160,5 @@ Click "Deploy" and wait for your frontend to deploy.
 Once deployed, you should be able to use your hosted instance of via the URL Vercel gives you.
 
 Once you are done for the "Image Generation" model to be able to work you should go into https://supabase.com/dashboard/project/<YOUR_PROJECT_ID>/storage/buckets/message_images and create a folder called ai_generated_images
+
+Now just create API accounts and generate keys for OpenAI, Anthropic, Google Gemini, Groq, etc...
